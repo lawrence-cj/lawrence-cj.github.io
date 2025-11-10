@@ -17,6 +17,22 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.6/css/academicons.min.css">
     <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <style>
+        /* 窄屏时横排显示社交图标 */
+        @media screen and (max-width: 960px) {
+            .social-icons {
+                flex-direction: row !important;
+                justify-content: center !important;
+                flex-wrap: wrap !important;
+            }
+            .social-icons a span {
+                display: none !important;
+            }
+            .social-icons a {
+                gap: 5px !important;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -32,21 +48,26 @@
             <email>cjs1020440147 [at] icloud [dot] com</email>
             <br><br>
 
-            <div class="social-icons">
-                <a style="margin: 0 5px 0 0" href="https://scholar.google.com/citations?user=p4zxPP8AAAAJ">
-                    <i class="ai ai-google-scholar" style="font-size:1.2rem"></i>
+            <div class="social-icons" style="display: flex; flex-direction: column; gap: 10px; align-items: flex-start;">
+                <a style="display: flex; align-items: center; gap: 10px; text-decoration: none; font-size: 1.1rem;" href="https://scholar.google.com/citations?user=p4zxPP8AAAAJ">
+                    <i class="ai ai-google-scholar" style="font-size:1.5rem; width: 28px; text-align: center;"></i>
+                    <span style="white-space: nowrap;">Google Scholar</span>
                 </a>
-                <a style="margin: 0 5px 0 0" href="https://github.com/lawrence-cj">
-                    <i class="fab fa-github"></i>
+                <a style="display: flex; align-items: center; gap: 10px; text-decoration: none; font-size: 1.1rem;" href="https://github.com/lawrence-cj">
+                    <i class="fab fa-github" style="font-size:1.4rem; width: 28px; text-align: center;"></i>
+                    <span style="white-space: nowrap;">GitHub</span>
                 </a>
-                <a style="margin: 0 5px 0 0" href="http://linkedin.com/in/junsong-chen">
-                    <i class="fab fa-linkedin"></i>
+                <a style="display: flex; align-items: center; gap: 10px; text-decoration: none; font-size: 1.1rem;" href="http://linkedin.com/in/junsong-chen">
+                    <i class="fab fa-linkedin" style="font-size:1.4rem; width: 28px; text-align: center;"></i>
+                    <span style="white-space: nowrap;">LinkedIn</span>
                 </a>
-                <a style="margin: 0 0 0 0" href="https://x.com/lawrence_cjs">
-                    <i class="fab fa-twitter"></i>
+                <a style="display: flex; align-items: center; gap: 10px; text-decoration: none; font-size: 1.1rem;" href="https://x.com/lawrence_cjs">
+                    <i class="fab fa-twitter" style="font-size:1.4rem; width: 28px; text-align: center;"></i>
+                    <span style="white-space: nowrap;">Twitter</span>
                 </a>
-                <a style="margin: 0 0 0 0" href="data/Resume_jsChen.pdf">
-                    <i class="fab fa-dochub"></i>
+                <a style="display: flex; align-items: center; gap: 10px; text-decoration: none; font-size: 1.1rem;" href="data/Resume_jsChen.pdf">
+                    <i class="fab fa-dochub" style="font-size:1.4rem; width: 28px; text-align: center;"></i>
+                    <span style="white-space: nowrap;">CV</span>
                 </a>
             </div>
             <br>
