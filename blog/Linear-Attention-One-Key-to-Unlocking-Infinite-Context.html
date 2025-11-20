@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Linear Attention: One Key to Unlocking Infinite Context</title>
+    
+    <!-- MathJax for rendering mathematical formulas -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+            line-height: 1.8;
+            color: #333;
+            background-color: #f8f9fa;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 60px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .cover-image {
+            width: 100%;
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 40px;
+            border-radius: 8px;
+        }
+        
+        h1 {
+            font-size: 2.5em;
+            font-weight: 700;
+            margin-bottom: 30px;
+            color: #1a1a1a;
+            line-height: 1.2;
+        }
+        
+        h2 {
+            font-size: 1.8em;
+            font-weight: 600;
+            margin-top: 50px;
+            margin-bottom: 20px;
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        
+        h3 {
+            font-size: 1.4em;
+            font-weight: 600;
+            margin-top: 35px;
+            margin-bottom: 15px;
+            color: #34495e;
+        }
+        
+        h4 {
+            font-size: 1.2em;
+            font-weight: 600;
+            margin-top: 25px;
+            margin-bottom: 12px;
+            color: #555;
+        }
+        
+        p {
+            margin-bottom: 20px;
+            text-align: justify;
+        }
+        
+        .math-display {
+            overflow-x: auto;
+            margin: 25px 0;
+            padding: 15px;
+            background-color: #f5f7f9;
+            border-left: 4px solid #3498db;
+            border-radius: 4px;
+        }
+        
+        ul, ol {
+            margin: 20px 0;
+            padding-left: 40px;
+        }
+        
+        li {
+            margin-bottom: 10px;
+        }
+        
+        strong {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 30px auto;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        figcaption, .caption {
+            text-align: center;
+            font-style: italic;
+            color: #666;
+            margin-top: 10px;
+            margin-bottom: 30px;
+            font-size: 0.95em;
+            line-height: 1.6;
+        }
+        
+        a {
+            color: #3498db;
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.3s;
+        }
+        
+        a:hover {
+            border-bottom-color: #3498db;
+        }
+        
+        hr {
+            border: none;
+            border-top: 1px solid #ddd;
+            margin: 40px 0;
+        }
+        
+        .video-wrapper {
+            position: relative;
+            margin: 30px 0;
+        }
+        
+        .video-link {
+            display: block;
+            position: relative;
+        }
+        
+        .video-link img {
+            width: 100%;
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+        
+        .video-link:hover img {
+            opacity: 0.9;
+        }
+        
+        code {
+            background-color: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.9em;
+        }
+        
+        .reference {
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 2px solid #eee;
+        }
+        
+        .reference ol {
+            list-style-type: none;
+            counter-reset: ref-counter;
+        }
+        
+        .reference li {
+            counter-increment: ref-counter;
+            margin-bottom: 15px;
+        }
+        
+        .reference li::before {
+            content: "[" counter(ref-counter) "] ";
+            font-weight: 600;
+            color: #3498db;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 20px;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+            
+            h2 {
+                font-size: 1.5em;
+            }
+            
+            h3 {
+                font-size: 1.3em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="https://hackmd.io/_uploads/HJWjwVnlbe.png" alt="Cover" class="cover-image">
+        
+        <h1>Linear Attention: One Key to Unlocking Infinite Context</h1>
+        
+        <p>In the age of AI dominated by Transformer models, the core component—the attention mechanism—is the undisputed star. However, the standard Softmax attention has a critical weakness: its computational and memory complexity grows quadratically (\(O(N^2)\)) with the sequence length \(N\). This means that processing long texts, high-resolution images, and especially long videos, becomes prohibitively expensive.</p>
+        
+        <p>To break through this bottleneck, researchers have proposed various efficient attention variants. Among them, <strong>Linear Attention</strong> stands out for its mathematical elegance and practical power. It successfully reduces the complexity to a linear scale (\(O(N)\)), opening the door to processing ultra-long sequences.</p>
+        
+        <p>This post will dive deep into the core idea of Linear Attention, derive its magical <strong>"state accumulation"</strong> property, and demonstrate how it empowers LLMs and long video generation.</p>
+        
+        <h2>The Evolution from Softmax to Linear Attention</h2>
+        
+        <p>Let's first recall the standard Softmax attention formula:</p>
+        
+        <div class="math-display">
+            \[
+            \text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V
+            \]
+        </div>
+        
+        <p>Here, \(Q\), \(K\), and \(V\) are the Query, Key, and Value matrices. The bottleneck lies in the \(QK^T\) matrix multiplication, which creates an \(N \times N\) attention score matrix. This single step is responsible for the \(O(N^2)\) complexity.</p>
+        
+        <p>The core idea of Linear Attention is to <strong>"aggregate first, query later,"</strong> cleverly avoiding the creation of this massive \(N \times N\) matrix. It achieves this by applying a feature map \(\phi(\cdot)\) (such as ReLU or ELU+1) to the Queries and Keys and then leveraging the associative property of matrix multiplication to change the order of computation.</p>
+        
+        <p>While standard attention computes \((QK^T)V\), linear attention reorders it to \(Q(K^T V)\). Let's look at the formula:</p>
+        
+        <div class="math-display">
+            \[
+            \text{Attention}(Q, K, V)_i = \frac{\phi(Q_i)^T \sum_{j=1}^{N} (\phi(K_j) V_j^T)}{\phi(Q_i)^T \sum_{j=1}^{N} \phi(K_j)}
+            \]
+        </div>
+        
+        <p>At first glance, this still seems to require iterating through all \(j\) for each \(i\). But the key insight is that the term \(\sum_{j=1}^{N} (\phi(K_j) V_j^T)\) (a \(d \times d\) matrix) can be pre-computed and <strong>reused</strong> for all queries \(Q_i\). More importantly, in an autoregressive (causal) setting, this can be expressed as an <strong>accumulating state</strong>.</p>
+        
+        <h3>I. The Core Magic: The State Accumulation Property</h3>
+        
+        <p>For autoregressive tasks like generative models, the output at position \(i\) can only depend on inputs from positions \(1\) to \(i\). The linear attention formula thus becomes:</p>
+        
+        <div class="math-display">
+            \[
+            O_i = \frac{\phi(Q_i)^T \sum_{j=1}^{i} (\phi(K_j) V_j^T)}{\phi(Q_i)^T \sum_{j=1}^{i} \phi(K_j)}
+            \]
+        </div>
+        
+        <p>Let's define a "state" \(S_i\) that represents the accumulated Key-Value information up to step \(i\):</p>
+        
+        <div class="math-display">
+            \[
+            S_i = \sum_{j=1}^{i} \phi(K_j) V_j^T
+            \]
+        </div>
+        
+        <p>This state \(S_i\) possesses a wonderfully simple recursive property:</p>
+        
+        <div class="math-display">
+            \[
+            S_i = S_{i-1} + \phi(K_i) V_i^T
+            \]
+        </div>
+        
+        <p>This is the magic of Linear Attention! As illustrated in the image below, we don't need to recompute the sum from \(j=1\) to \(i\) at every step. We simply maintain a fixed-size state \(S\) (along with a denominator term for normalization). At each new timestep \(i\), we update the state by adding the current step's product \(\phi(K_i) V_i^T\) to the previous state \(S_{i-1}\).</p>
+        
+        <figure>
+            <img src="https://hackmd.io/_uploads/SJemHDmRxg.png" alt="LINEAR ATTENTION MECHANISM">
+            <figcaption>Figure 1: The computation in Linear Attention can be framed as a recursive process. To compute the output for block <code>i</code>, we only need the cached state from the previous <code>i-1</code> blocks (\(S_{1 \rightarrow i-1}\)) and the information from the current block (\(K_i, V_i\)).</figcaption>
+        </figure>
+        
+        <p>This "state accumulation" feature means that no matter how long the sequence gets, we only need to keep a fixed-size state matrix in memory. The computational complexity drops from \(O(N^2)\) to \(O(N)\), and the memory requirement plummets from \(O(N^2)\) to \(O(1)\) (with respect to sequence length).</p>
+        
+        <hr>
+        
+        <h2>Long Context LLM via State Summation</h2>
+        
+        <h3>I. Mathematical Derivation of Retrieval Capability and Advanced Enhancement Mechanisms</h3>
+        
+        <p>While \(O(N)\) complexity is achieved, vanilla Linear Attention encounters a strict mathematical bottleneck in accurate <strong>Associative Retrieval</strong> tasks. Next-generation models actively employ gating and error correction to overcome this limitation.</p>
+        
+        <h4>1.1 Theoretical Root of Retrieval Failure: Orthogonality Limitation</h4>
+        
+        <p>The accumulated state \(S\) is the sum of outer products of all Key \(K_i\) and Value \(V_i\): \(S = \sum_{i=1}^{L} V_i K_i^T\).</p>
+        
+        <p><strong>Definition and Expansion of the Retrieval Operation:</strong><br>
+        The operation to retrieve \(V_j\) using \(K_j\) (as the query) is \(\hat{V}_j = S K_j\). Substituting the definition of \(S\):</p>
+        
+        <div class="math-display">
+            \[
+            \hat{V}_j = \left( \sum_{i=1}^{L} V_i K_i^T \right) K_j = \sum_{i=1}^{L} V_i (K_i^T K_j)
+            \]
+        </div>
+        
+        <p><strong>Separation into Target Term and Interference Term:</strong><br>
+        We separate the sum into the target term (\(i=j\)) and the interference term (\(i \neq j\)):</p>
+        
+        <div class="math-display">
+            \[
+            \hat{V}_j = \underbrace{V_j (K_j^T K_j)}_{\text{Target Term}} + \underbrace{\sum_{i \neq j} V_i (K_i^T K_j)}_{\text{Interference Term (Retrieval Error)}}
+            \]
+        </div>
+        
+        <p><strong>Derivation of Perfect Retrieval Conditions:</strong><br>
+        For perfect retrieval (\(\hat{V}_j = V_j\)), the <strong>Interference Term must be zero</strong>. This requires the coefficients of all \(V_i\) to be zero:</p>
+        
+        <div class="math-display">
+            \[
+            K_i^T K_j = 0 \quad \text{must hold for all } i \neq j
+            \]
+        </div>
+        
+        <p>This is the definition of <strong>mutual orthogonality</strong>. Therefore, the <strong>maximum number of interference-free memories is strictly limited by the Key/Value dimension \(d\)</strong> (Max \(L \le d\)). Once sequence length \(L\) exceeds \(d\), retrieval error is inevitable.</p>
+        
+        <h3>1.2 DeltaNet's Gating and Error Correction Mechanism</h3>
+        
+        <p>DeltaNet[1,2] introduces proactive error correction by treating state update as an online learning process that minimizes the <strong>Mean Squared Error (MSE)</strong>.</p>
+        
+        <p><strong>Defining the Loss Function and Calculating the Gradient:</strong><br>
+        At each step \(t\), the state \(S\) minimizes the MSE loss \(L_t(S)\):</p>
+        
+        <div class="math-display">
+            \[L_t(S) = \frac{1}{2} \| S K_t - V_t \|^2\]
+        </div>
+        
+        <p>We calculate the gradient of the loss with respect to \(S\):</p>
+        
+        <div class="math-display">
+            \[\nabla L_t(S) = \frac{\partial L_t(S)}{\partial S} = (S K_t - V_t) K_t^T\]
+        </div>
+        
+        <p><strong>Deriving DeltaNet's Recurrent Formula:</strong><br>
+        Substituting the gradient into the gradient descent update rule \(S_t = S_{t-1} - \beta_t \nabla L_t(S_{t-1})\) (setting \(\eta_t = \beta_t\)):</p>
+        
+        <div class="math-display">
+            \[S_t = S_{t-1} - \beta_t (S_{t-1} K_t - V_t) K_t^T\]
+        </div>
+        
+        <p><strong>Formula Expansion and Mechanism Separation:</strong><br>
+        Expanding and regrouping the terms, we derive DeltaNet's final recurrent formula:</p>
+        
+        <div class="math-display">
+            \[S_t = \underbrace{S_{t-1} (I - \beta_t K_t K_t^T)}_{\text{Projection and Decay of Old State (Gating)}} + \underbrace{\beta_t V_t K_t^T}_{\text{Injection of New Information}}\]
+        </div>
+        
+        <p><strong>Mechanism Summary:</strong> The matrix \((I - \beta_t K_t K_t^T)\) acts as a <strong>dynamic projection matrix</strong>. It utilizes the prediction error to correct the old state \(S_{t-1}\), enabling proactive control and <strong>elimination</strong> of the interference component along the direction of \(K_t\), thereby breaking the \(L>d\) retrieval limitation.</p>
+        
+        <hr>
+        
+        <h2>II. Architectural Refinement and Hardware Engineering: Overcoming \(L>d\) Limits</h2>
+        
+        <p>The practical success of LLM implementation relies on translating these theoretical mechanisms into hardware-efficient implementations and adopting modern architectural best practices.</p>
+        
+        <h3>2.1 Architectural Optimization: Proactive Interference Elimination</h3>
+        
+        <ul>
+            <li><strong>Geometric Role of L2-Normalization:</strong> Applying <strong>L2-Normalization</strong> to the Key vector \(K\) imbues the state transition matrix \(I - K K^T\) with a clear <strong>geometric projection</strong> property. It actively <strong>erases</strong> the component of \(S\) that interferes with the current Key \(K_t\), achieving efficient memory "cleanup."</li>
+            <li><strong>Role of Short Convolution:</strong> Adding small-kernel <strong>Short Convolution</strong> (Depthwise Separable Conv1D) to the \(Q, K, V\) paths supplements the purely content-based linear attention with <strong>Local Positional Bias</strong>. This serves as a "shortcut" for forming <strong>Induction Heads</strong>, which is critical for enhancing the LLM's in-context learning capabilities.</li>
+        </ul>
+        
+        <h3>2.2 Training Efficiency and Hybrid Architectures</h3>
+        
+        <ul>
+            <li><strong>Chunkwise Parallel Training:</strong> To overcome the \(O(L)\) sequential dependency during training, the <strong>Chunkwise Parallel Algorithm</strong> is employed. This method leverages <strong>state checkpointing</strong> and reformulates the recurrent calculations into GPU-friendly <strong>Matrix Multiplication (MatMul)</strong>, achieving hardware-efficient \(O(N)\) time complexity for training.</li>
+            <li><strong>Hybrid Architectures (Hybrid Models):</strong> Given the theoretical retrieval ceiling of fixed-state models, mixing linear RNN layers with a <strong>small number (e.g., 2-4 layers) of \(O(N^2)\) Global Softmax Attention</strong> layers is highly effective. This <strong>Hybrid Architecture</strong> maintains near-linear inference speed while utilizing the global attention's <strong>unlimited memory capacity</strong> (in theory) to <strong>surpass pure Transformer models' performance</strong> on complex retrieval tasks.</li>
+        </ul>
+        
+        <h2>Long Video Generation via State Summation</h2>
+        
+        <p>Another perfect example leveraging this theoretical elegance is Long video generation in diffusion world. A video consists of thousands of frames, making it an impossibly long sequence for traditional attention mechanisms. <a href="https://nvlabs.github.io/Sana/Video/" target="_blank">SANA-Video[3]</a> is a project exploring in this field.</p>
+        
+        <p>By ultiziling the state accumulation property of linear attention, we can implement an efficient long video generation model with the following steps:</p>
+        
+        <ol>
+            <li><strong>Model Adaptation</strong>: Take a pre-trained video model with linear attention layers or replace its Softmax attention layers with <strong>Causal Linear Attention</strong>. Then, fine-tune the model on video data.</li>
+            <li><strong>Block-wise Processing and State Caching</strong>: During inference, we can generate the video in smaller chunks or blocks.
+                <ul>
+                    <li>After processing the first chunk (Block 1), we compute and save its final accumulated state, \(S_1\).</li>
+                    <li>To generate the second chunk (Block 2), we no longer need the original K and V values from all the frames in Block 1. We simply load the cached state \(S_1\) and continue accumulating the Key-Value information from Block 2 on top of it to get \(S_2\).</li>
+                    <li>This process continues, with the state \(S\) acting like a compressed memory, constantly absorbing new video information while its size remains constant.</li>
+                </ul>
+            </li>
+        </ol>
+        
+        <div class="video-wrapper">
+            <a href="https://www.youtube.com/watch?v=-vuCn_d9Qjk" target="_blank" class="video-link">
+                <img src="https://hackmd.io/_uploads/By4nSE3gZe.jpg" alt="Demo Video of Causal-Attention">
+            </a>
+            <div class="caption">Figure 2: In Block Causal Linear Attention, the computation for the current block (e.g., Block_n) directly uses the cumulative sum ("Cum Sum") from all preceding blocks, eliminating the need to access the original KV cache. This provides the dual advantages of <strong>Constant memory usage</strong> and <strong>Global Context</strong> awareness. <strong>Click to play.</strong></div>
+        </div>
+        
+        <p>With this method, even when the model is generating the n-th block of the video, its attention calculation implicitly incorporates all historical information from the very first frame. This enables the model to maintain long-term temporal consistency, generating videos that are coherent and logically sound, without "forgetting" what happened at the beginning.</p>
+        
+        <h2>Future: From Simple Accumulation to Advanced State Updates</h2>
+        
+        <p>However, the above simple linear accumulation is just the beginning. In recent years, researchers have discovered that designing more sophisticated online update rules can significantly enhance model performance and expressive power. These methods transform the state update itself into a learnable, dynamic process.</p>
+        
+        <p>The table below shows how several advanced models have proposed their own unique state update mechanisms:</p>
+        
+        <figure>
+            <img src="https://hackmd.io/_uploads/rJCGn_XRge.jpg" alt="Advanced State Updates">
+            <figcaption>Table from: Griffin: On the Design of Recurrent Models for Efficient Language Modeling (<a href="https://arxiv.org/pdf/2412.06464" target="_blank">https://arxiv.org/pdf/2412.06464</a>)</figcaption>
+        </figure>
+        
+        <p>From this table, we can see a clear progression:</p>
+        
+        <ul>
+            <li><strong>Mamba2</strong> introduces a decay factor \(\alpha_t\), allowing the state to selectively "forget" past information.</li>
+            <li><strong>Longhorn</strong> and <strong>DeltaNet</strong> introduce gate-like mechanisms (e.g., \(\mathbf{I} - \epsilon_t \mathbf{k}_t \mathbf{k}_t^T\)), which make the update dependent on the current input \(\mathbf{k}_t\), dynamically adjusting the influence of the previous state \(\mathbf{S}_{t-1}\).</li>
+            <li><strong>Gated DeltaNet</strong> further combines decay and gating to create an even more powerful update paradigm.</li>
+        </ul>
+        
+        <p>These advanced update rules allow models to achieve far greater modeling capacity than simple linear accumulation, all while maintaining linear complexity. The "state" evolves from a simple "memory accumulator" into a complex, dynamic memory unit.</p>
+        
+        <h3>Conclusion</h3>
+        
+        <p>Linear Attention represents a fundamental shift from the brute-force quadratic approach of Softmax attention. Its core strength lies in a simple mathematical reordering that enables a powerful <strong>state accumulation</strong> property (\(S_i = S_{i-1} + \phi(K_i) V_i^T\)).</p>
+        
+        <p>This elegant trick unlocks the ability to process sequences of virtually unlimited length with constant memory and linear time complexity. As we push the boundaries of AI, efficient methods like Linear Attention are paving the way for more scalable and powerful models across domains, from natural language to the final frontier of long-form video.</p>
+        
+        <div class="reference">
+            <h3>Reference</h3>
+            <ol>
+                <li>Yang, Songlin, et al. "Parallelizing linear transformers with the delta rule over sequence length." Advances in neural information processing systems 37 (2024): 115491-115522.</li>
+                <li><a href="https://sustcsonglin.github.io/blog/2024/deltanet-2/" target="_blank">https://sustcsonglin.github.io/blog/2024/deltanet-2/</a></li>
+                <li>Chen, Junsong, et al. "Sana-video: Efficient video generation with block linear diffusion transformer." arXiv preprint arXiv:2509.24695 (2025).</li>
+            </ol>
+        </div>
+    </div>
+</body>
+</html>
