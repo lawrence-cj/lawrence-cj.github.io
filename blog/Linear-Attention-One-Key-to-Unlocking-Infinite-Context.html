@@ -41,6 +41,59 @@
             border-radius: 8px;
         }
         
+        .video-link {
+            position: relative;
+            display: block;
+            margin-bottom: 40px;
+        }
+        
+        .video-link .cover-image {
+            margin-bottom: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .video-link:hover .cover-image {
+            opacity: 0.9;
+        }
+        
+        .video-link::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+            height: 80px;
+            background-color: rgba(255, 0, 0, 0.9);
+            border-radius: 50%;
+            transition: all 0.3s;
+        }
+        
+        .video-link:hover::after {
+            background-color: rgba(255, 0, 0, 1);
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+        
+        .video-link::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-40%, -50%);
+            width: 0;
+            height: 0;
+            border-left: 25px solid white;
+            border-top: 15px solid transparent;
+            border-bottom: 15px solid transparent;
+            z-index: 1;
+            transition: all 0.3s;
+        }
+        
+        .video-link:hover::before {
+            transform: translate(-40%, -50%) scale(1.1);
+        }
+        
+        
         h1 {
             font-size: 2.5em;
             font-weight: 700;
@@ -210,7 +263,9 @@
 </head>
 <body>
     <div class="container">
-        <img src="https://hackmd.io/_uploads/HJWjwVnlbe.png" alt="Cover" class="cover-image">
+        <a href="https://www.youtube.com/watch?v=ztdkfIMkdJ4" target="_blank" class="video-link">
+            <img src="https://hackmd.io/_uploads/HJWjwVnlbe.png" alt="Cover" class="cover-image">
+        </a>
         
         <h1>Linear Attention: One Key to Unlocking Infinite Context</h1>
         
