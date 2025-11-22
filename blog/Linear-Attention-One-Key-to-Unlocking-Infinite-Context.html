@@ -333,11 +333,62 @@
         </figure>
         
         <p>This "state accumulation" feature means that no matter how long the sequence gets, we only need to keep a fixed-size state matrix in memory. The computational complexity drops from \(O(N^2)\) to \(O(N)\), and the memory requirement plummets from \(O(N^2)\) to \(O(1)\) (with respect to sequence length).</p>
+
+        <hr>
         
+        <h2>Long Video Generation via State Summation</h2>
+        
+        <p><a href="https://nvlabs.github.io/Sana/Video/" target="_blank">SANA-Video[1]</a> leverages this theoretical elegance in long video generation, where a generated video consists of thousands of frames, making it an impossibly long sequence for traditional attention mechanisms. </p>
+        
+        <p>By ultiziling the state accumulation property of linear attention, we can implement an efficient long video generation model with the following steps:</p>
+        
+        <ol>
+            <li><strong>Model Adaptation</strong>: Take a pre-trained video model with linear attention layers or replace its Softmax attention layers with <strong>Causal Linear Attention</strong>. Then, fine-tune the model on video data.</li>
+            <li><strong>Block-wise Processing and State Caching</strong>: During inference, we can generate the video in smaller chunks or blocks.
+                <ul>
+                    <li>After processing the first chunk (Block 1), we compute and save its final accumulated state, \(S_1\).</li>
+                    <li>To generate the second chunk (Block 2), we no longer need the original K and V values from all the frames in Block 1. We simply load the cached state \(S_1\) and continue accumulating the Key-Value information from Block 2 on top of it to get \(S_2\).</li>
+                    <li>This process continues, with the state \(S\) acting like a compressed memory, constantly absorbing new video information while its size remains constant.</li>
+                </ul>
+            </li>
+        </ol>
+        
+        <div class="video-wrapper">
+            <a href="https://www.youtube.com/watch?v=-vuCn_d9Qjk" target="_blank" class="video-link">
+                <img src="https://hackmd.io/_uploads/By4nSE3gZe.jpg" alt="Demo Video of Causal-Attention">
+            </a>
+            <div class="caption">Figure 2: In Block Causal Linear Attention, the computation for the current block (e.g., Block_n) directly uses the cumulative sum ("Cum Sum") from all preceding blocks, eliminating the need to access the original KV cache. This provides the dual advantages of <strong>Constant memory usage</strong> and <strong>Global Context</strong> awareness. <strong>Click to play.</strong></div>
+        </div>
+        
+        <p>With this method, even when the model is generating the n-th block of the video, its attention calculation implicitly incorporates all historical information from the very first frame. This enables the model to maintain long-term temporal consistency, generating videos that are coherent and logically sound, without "forgetting" what happened at the beginning.</p>
+        
+        <h2>Future: From Simple Accumulation to Advanced State Updates</h2>
+        
+        <p>However, the above simple linear accumulation is just the beginning. In recent years, researchers have discovered that designing more sophisticated online update rules can significantly enhance model performance and expressive power. These methods transform the state update itself into a learnable, dynamic process.</p>
+        
+        <p>The table below shows how several advanced models have proposed their own unique state update mechanisms:</p>
+        
+        <figure>
+            <img src="https://hackmd.io/_uploads/rJCGn_XRge.jpg" alt="Advanced State Updates">
+            <figcaption>Table from: Griffin: On the Design of Recurrent Models for Efficient Language Modeling (<a href="https://arxiv.org/pdf/2412.06464" target="_blank">https://arxiv.org/pdf/2412.06464</a>)</figcaption>
+        </figure>
+        
+        <p>From this table, we can see a clear progression:</p>
+        
+        <ul>
+            <li><strong>Mamba2</strong> introduces a decay factor \(\alpha_t\), allowing the state to selectively "forget" past information.</li>
+            <li><strong>Longhorn</strong> and <strong>DeltaNet</strong> introduce gate-like mechanisms (e.g., \(\mathbf{I} - \epsilon_t \mathbf{k}_t \mathbf{k}_t^T\)), which make the update dependent on the current input \(\mathbf{k}_t\), dynamically adjusting the influence of the previous state \(\mathbf{S}_{t-1}\).</li>
+            <li><strong>Gated DeltaNet</strong> further combines decay and gating to create an even more powerful update paradigm.</li>
+        </ul>
+        
+        <p>These advanced update rules allow models to achieve far greater modeling capacity than simple linear accumulation, all while maintaining linear complexity. The "state" evolves from a simple "memory accumulator" into a complex, dynamic memory unit.</p>
+         
         <hr>
         
         <h2>Long Context LLM via State Summation</h2>
-        
+
+        In this section, we introduce how state updating strategies are motivated and designed in LLMs. 
+
         <h3>I. Mathematical Derivation of Retrieval Capability and Advanced Enhancement Mechanisms</h3>
         
         <p>While \(O(N)\) complexity is achieved, vanilla Linear Attention encounters a strict mathematical bottleneck in accurate <strong>Associative Retrieval</strong> tasks. Next-generation models actively employ gating and error correction to overcome this limitation.</p>
@@ -427,54 +478,7 @@
             <li><strong>Chunkwise Parallel Training:</strong> To overcome the \(O(L)\) sequential dependency during training, the <strong>Chunkwise Parallel Algorithm</strong> is employed. This method leverages <strong>state checkpointing</strong> and reformulates the recurrent calculations into GPU-friendly <strong>Matrix Multiplication (MatMul)</strong>, achieving hardware-efficient \(O(N)\) time complexity for training.</li>
             <li><strong>Hybrid Architectures (Hybrid Models):</strong> Given the theoretical retrieval ceiling of fixed-state models, mixing linear RNN layers with a <strong>small number (e.g., 2-4 layers) of \(O(N^2)\) Global Softmax Attention</strong> layers is highly effective. This <strong>Hybrid Architecture</strong> maintains near-linear inference speed while utilizing the global attention's <strong>unlimited memory capacity</strong> (in theory) to <strong>surpass pure Transformer models' performance</strong> on complex retrieval tasks.</li>
         </ul>
-        
-        <h2>Long Video Generation via State Summation</h2>
-        
-        <p>Another perfect example leveraging this theoretical elegance is Long video generation in diffusion world. A video consists of thousands of frames, making it an impossibly long sequence for traditional attention mechanisms. <a href="https://nvlabs.github.io/Sana/Video/" target="_blank">SANA-Video[3]</a> is a project exploring in this field.</p>
-        
-        <p>By ultiziling the state accumulation property of linear attention, we can implement an efficient long video generation model with the following steps:</p>
-        
-        <ol>
-            <li><strong>Model Adaptation</strong>: Take a pre-trained video model with linear attention layers or replace its Softmax attention layers with <strong>Causal Linear Attention</strong>. Then, fine-tune the model on video data.</li>
-            <li><strong>Block-wise Processing and State Caching</strong>: During inference, we can generate the video in smaller chunks or blocks.
-                <ul>
-                    <li>After processing the first chunk (Block 1), we compute and save its final accumulated state, \(S_1\).</li>
-                    <li>To generate the second chunk (Block 2), we no longer need the original K and V values from all the frames in Block 1. We simply load the cached state \(S_1\) and continue accumulating the Key-Value information from Block 2 on top of it to get \(S_2\).</li>
-                    <li>This process continues, with the state \(S\) acting like a compressed memory, constantly absorbing new video information while its size remains constant.</li>
-                </ul>
-            </li>
-        </ol>
-        
-        <div class="video-wrapper">
-            <a href="https://www.youtube.com/watch?v=-vuCn_d9Qjk" target="_blank" class="video-link">
-                <img src="https://hackmd.io/_uploads/By4nSE3gZe.jpg" alt="Demo Video of Causal-Attention">
-            </a>
-            <div class="caption">Figure 2: In Block Causal Linear Attention, the computation for the current block (e.g., Block_n) directly uses the cumulative sum ("Cum Sum") from all preceding blocks, eliminating the need to access the original KV cache. This provides the dual advantages of <strong>Constant memory usage</strong> and <strong>Global Context</strong> awareness. <strong>Click to play.</strong></div>
-        </div>
-        
-        <p>With this method, even when the model is generating the n-th block of the video, its attention calculation implicitly incorporates all historical information from the very first frame. This enables the model to maintain long-term temporal consistency, generating videos that are coherent and logically sound, without "forgetting" what happened at the beginning.</p>
-        
-        <h2>Future: From Simple Accumulation to Advanced State Updates</h2>
-        
-        <p>However, the above simple linear accumulation is just the beginning. In recent years, researchers have discovered that designing more sophisticated online update rules can significantly enhance model performance and expressive power. These methods transform the state update itself into a learnable, dynamic process.</p>
-        
-        <p>The table below shows how several advanced models have proposed their own unique state update mechanisms:</p>
-        
-        <figure>
-            <img src="https://hackmd.io/_uploads/rJCGn_XRge.jpg" alt="Advanced State Updates">
-            <figcaption>Table from: Griffin: On the Design of Recurrent Models for Efficient Language Modeling (<a href="https://arxiv.org/pdf/2412.06464" target="_blank">https://arxiv.org/pdf/2412.06464</a>)</figcaption>
-        </figure>
-        
-        <p>From this table, we can see a clear progression:</p>
-        
-        <ul>
-            <li><strong>Mamba2</strong> introduces a decay factor \(\alpha_t\), allowing the state to selectively "forget" past information.</li>
-            <li><strong>Longhorn</strong> and <strong>DeltaNet</strong> introduce gate-like mechanisms (e.g., \(\mathbf{I} - \epsilon_t \mathbf{k}_t \mathbf{k}_t^T\)), which make the update dependent on the current input \(\mathbf{k}_t\), dynamically adjusting the influence of the previous state \(\mathbf{S}_{t-1}\).</li>
-            <li><strong>Gated DeltaNet</strong> further combines decay and gating to create an even more powerful update paradigm.</li>
-        </ul>
-        
-        <p>These advanced update rules allow models to achieve far greater modeling capacity than simple linear accumulation, all while maintaining linear complexity. The "state" evolves from a simple "memory accumulator" into a complex, dynamic memory unit.</p>
-        
+
         <h3>Conclusion</h3>
         
         <p>Linear Attention represents a fundamental shift from the brute-force quadratic approach of Softmax attention. Its core strength lies in a simple mathematical reordering that enables a powerful <strong>state accumulation</strong> property (\(S_i = S_{i-1} + \phi(K_i) V_i^T\)).</p>
@@ -484,9 +488,9 @@
         <div class="reference">
             <h3>Reference</h3>
             <ol>
+                <li>Chen, Junsong, et al. "Sana-video: Efficient video generation with block linear diffusion transformer." arXiv preprint arXiv:2509.24695 (2025).</li>
                 <li>Yang, Songlin, et al. "Parallelizing linear transformers with the delta rule over sequence length." Advances in neural information processing systems 37 (2024): 115491-115522.</li>
                 <li><a href="https://sustcsonglin.github.io/blog/2024/deltanet-2/" target="_blank">https://sustcsonglin.github.io/blog/2024/deltanet-2/</a></li>
-                <li>Chen, Junsong, et al. "Sana-video: Efficient video generation with block linear diffusion transformer." arXiv preprint arXiv:2509.24695 (2025).</li>
             </ol>
         </div>
     </div>
