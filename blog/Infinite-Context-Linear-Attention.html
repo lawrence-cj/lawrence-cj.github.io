@@ -274,15 +274,19 @@
         
         <h1>Infinite Context Length with Global but Constant Attention Memory</h1>
         
-        <p>In the age of AI dominated by Transformer models, the core component—the attention mechanism—is the undisputed star. The \(O(N^2)\) complexity bottleneck in Transformer models poses a formidable hardware challenge. In practice, the linearly growing KV Cache of standard Softmax Attention is rapidly consuming the scarce and VERY EXPENSIVE ($$$) DRAM (Working Memory). This memory consumption model imposes a critical cost and capacity limit on the scalability of long-context models.</p>
-        
+        <p>In the age of AI dominated by Transformer models, the core component—the attention mechanism—is the undisputed star. The \(O(N^2)\) complexity bottleneck in Transformer models poses a formidable hardware challenge. In practice, the linearly growing KV Cache of standard Softmax Attention is rapidly consuming the scarce and VERY EXPENSIVE ($$$) DRAM (Working Memory)[1]. This memory consumption model imposes a critical cost and capacity limit on the scalability of long-context models.</p>
+
+        <figure>
+            <img src="https://hackmd.io/_uploads/rJm4FieZZx.png" alt="DRAM vs NAND Flash Cost">
+        </figure> 
+
         <p>To solve this, Linear Attention provides an elegant mathematical solution. It not only reduces computational complexity to \(O(N)\), but, more critically, it achieves a fixed-size \(O(1)\) state.</p>
         
         <p>This post explores the core mechanism of Linear Attention, deriving its state accumulation property and demonstrating how its constant memory bypasses the DRAM bottleneck, laying the foundation for economical and efficient ultra-long sequence generation.</p>
         
         <figure>
-            <img src="https://hackmd.io/_uploads/ByenbugbZe.jpg" alt="DRAM vs NAND Flash Storage">
-            <figcaption>Figure 1: DRAM (left) acts as ultra-fast but expensive working memory for "hot data" like the active KV cache, frequently becoming a capacity bottleneck. NAND flash (right) provides economical, massive bulk storage for "cold data" such as datasets and model weights.</figcaption>
+            <img src="https://hackmd.io/_uploads/Hy6W9ie--g.png" alt="DRAM vs NAND Flash Storage">
+            <figcaption>Figure 2: DRAM (left) acts as ultra-fast but expensive working memory for "hot data" like the active KV cache, frequently becoming a capacity bottleneck. NAND flash (right) provides economical, massive bulk storage for "cold data" such as datasets and model weights.</figcaption>
         </figure>
         
         <h2>The Evolution from Softmax to Linear Attention</h2>
@@ -313,7 +317,7 @@
         
         <figure>
             <img src="https://hackmd.io/_uploads/SJhemvlZbx.png" alt="Vanilla Attention vs Linear Attention", width="70%">
-            <figcaption>Figure 2: Vanilla Attention (left) requires computing a large \(N \times N\) attention matrix (green). Linear Attention (right) leverages matrix associativity to instead compute a compact, fixed-size \(d \times d\) state matrix (\(\sum K_i V_i\)), resulting in linear complexity with respect to the sequence length \(N\).</figcaption>
+            <figcaption>Figure 3: Vanilla Attention (left) requires computing a large \(N \times N\) attention matrix (green). Linear Attention (right) leverages matrix associativity to instead compute a compact, fixed-size \(d \times d\) state matrix (\(\sum K_i V_i\)), resulting in linear complexity with respect to the sequence length \(N\).</figcaption>
         </figure>
         
         <h3>II. The Difference in KV Cache: Softmax vs. Linear Attention</h3>
@@ -324,7 +328,7 @@
         
         <figure>
             <img src="https://hackmd.io/_uploads/S1HZ_Pgb-e.jpg" alt="KV Cache Comparison">
-            <figcaption>Figure 3: During a new query operation, Softmax attention (left) must attend to a growing KV cache representing the entire sequence history. In contrast, Linear Attention (right) utilizes a fixed-size state matrix (\(S_{t-1}\)), updated recursively with the new key-value information (\(K_t V_t\)), resulting in constant-time computation. (AI generated).</figcaption>
+            <figcaption>Figure 4: During a new query operation, Softmax attention (left) must attend to a growing KV cache representing the entire sequence history. In contrast, Linear Attention (right) utilizes a fixed-size state matrix (\(S_{t-1}\)), updated recursively with the new key-value information (\(K_t V_t\)), resulting in constant-time computation. (AI generated).</figcaption>
         </figure>
         
         <h4>Softmax Attention: Linearly Growing KV Cache</h4>
@@ -337,7 +341,7 @@
             \]
         </div>
         
-        <p>The KV Cache implementation, as shown on the <strong>left side of Figure 3</strong>, requires storing the entire history of Keys \(K_{1:t}\) and Values \(V_{1:t}\). With every step of generation, a new \(K_t\) and \(V_t\) must be appended to the Cache. Consequently, the KV Cache's memory size grows linearly with the sequence length \(N\) (or the current timestep \(t\)), resulting in an \(O(N)\) memory complexity. This massive, growing KV Cache quickly exhausts memory in ultra-long context settings, representing a major computational bottleneck as the Query \(Q_t\) must be computed against the entire expanding sequence.</p>
+        <p>The KV Cache implementation, as shown on the <strong>left side of Figure 4</strong>, requires storing the entire history of Keys \(K_{1:t}\) and Values \(V_{1:t}\). With every step of generation, a new \(K_t\) and \(V_t\) must be appended to the Cache. Consequently, the KV Cache's memory size grows linearly with the sequence length \(N\) (or the current timestep \(t\)), resulting in an \(O(N)\) memory complexity. This massive, growing KV Cache quickly exhausts memory in ultra-long context settings, representing a major computational bottleneck as the Query \(Q_t\) must be computed against the entire expanding sequence.</p>
         
         <h4>Linear Attention: Fixed-Size State \(S\)</h4>
         
@@ -349,7 +353,7 @@
             \]
         </div>
         
-        <p>As illustrated on the <strong>right side of Figure 3</strong>, the core of Linear Attention lies in defining a fixed-size hidden state \(S_i\) that compresses all historical Key-Value information into a single matrix. This state \(S_i\) is defined as the accumulated sum of the Key and Value outer products:</p>
+        <p>As illustrated on the <strong>right side of Figure 4</strong>, the core of Linear Attention lies in defining a fixed-size hidden state \(S_i\) that compresses all historical Key-Value information into a single matrix. This state \(S_i\) is defined as the accumulated sum of the Key and Value outer products:</p>
         
         <div class="math-display">
             \[
@@ -361,22 +365,22 @@
         
         <div class="math-display">
             \[
-            S_i = S_{i-1} + \phi(K_i) V_i^T
+            S_i = \sum_{j=1}^{i-1} \phi(K_j) V_j^T + \phi(K_i) V_i^T = S_{i-1} + \phi(K_i) V_i^T
             \]
         </div>
         
         <p>The implementation achieves constant memory because the model does not need to store \(K_{1:t}\) and \(V_{1:t}\). Instead, it only needs to store and update a single, fixed-size matrix \(S\) (with dimension \(d \times d\)). The memory complexity is strictly \(O(1)\) (with respect to sequence length \(N\)), as the size of \(S\) depends exclusively on the model's hidden dimension \(d\). This guarantees that no matter how long the sequence becomes, the memory footprint remains constant, offering highly efficient inference where the Query \(Q_t\) only multiplies the fixed state \(S\).</p>
         
         <figure>
-            <img src="https://hackmd.io/_uploads/H1brhvgZ-e.png" alt="LINEAR ATTENTION MECHANISM">
-            <figcaption>Figure 4: The computation in Linear Attention can be framed as a recursive process. To compute the output for block <code>i</code>, we only need the cached state from the previous <code>i-1</code> blocks (\(S_{1 \rightarrow i-1}\)) and the information from the current block (\(K_i, V_i\)).</figcaption>
+            <img src="https://hackmd.io/_uploads/HJ0Ulhlbbl.png" alt="LINEAR ATTENTION MECHANISM">
+            <figcaption>Figure 5: The computation in Linear Attention can be framed as a recursive process. To compute the output for block <code>i</code>, we only need the cached state from the previous <code>i-1</code> blocks (\(S_{1 \rightarrow i-1}\)) and the information from the current block (\(K_i, V_i\)).</figcaption>
         </figure>
 
         <hr>
         
         <h2>Long Video Generation via Causal Linear Attention</h2>
         
-        <p><a href="https://nvlabs.github.io/Sana/Video/" target="_blank">SANA-Video[1]</a> leverages this theoretical elegance in long video generation, where a generated video consists of thousands of frames, making it an impossibly long sequence for traditional attention mechanisms.</p>
+        <p><a href="https://nvlabs.github.io/Sana/Video/" target="_blank">SANA-Video[2]</a> leverages this theoretical elegance in long video generation, where a generated video consists of thousands of frames, making it an impossibly long sequence for traditional attention mechanisms.</p>
         
         <p>By ultiziling the state accumulation property of linear attention, we can implement an efficient long video generation model with the following steps:</p>
         
@@ -395,7 +399,7 @@
             <a href="https://www.youtube.com/watch?v=-vuCn_d9Qjk" target="_blank" class="video-link">
                 <img src="https://hackmd.io/_uploads/By4nSE3gZe.jpg" alt="Demo Video of Causal-Attention">
             </a>
-            <div class="caption">Figure 5: In Block Causal Linear Attention, the computation for the current block (e.g., Block_n) directly uses the cumulative sum ("Cum Sum") from all preceding blocks, eliminating the need to access the original KV cache. This provides the dual advantages of <strong>Constant memory usage</strong> and <strong>Global Context</strong> awareness. <strong>Click to play.</strong></div>
+            <div class="caption">Figure 6: In Block Causal Linear Attention, the computation for the current block (e.g., Block_n) directly uses the cumulative sum ("Cum Sum") from all preceding blocks, eliminating the need to access the original KV cache. This provides the dual advantages of <strong>Constant memory usage</strong> and <strong>Global Context</strong> awareness. <strong>Click to play.</strong></div>
         </div>
         
         <p>With this method, even when the model is generating the n-th block of the video, its attention calculation implicitly incorporates all historical information from the very first frame. This enables the model to maintain long-term temporal consistency, generating videos that are coherent and logically sound, without "forgetting" what happened at the beginning.</p>
@@ -408,7 +412,7 @@
         
         <figure>
             <img src="https://hackmd.io/_uploads/rJCGn_XRge.jpg" alt="Advanced State Updates">
-            <figcaption>Table from: Griffin: On the Design of Recurrent Models for Efficient Language Modeling (<a href="https://arxiv.org/pdf/2412.06464" target="_blank">https://arxiv.org/pdf/2412.06464</a>)</figcaption>
+            <figcaption>Table 1: On the Design of Recurrent Models for Efficient Language Modeling [4]</figcaption>
         </figure>
         
         <p>From this table, we can see a clear progression:</p>
@@ -466,7 +470,7 @@
         
         <h3>1.2 DeltaNet's Gating and Error Correction Mechanism</h3>
         
-        <p>DeltaNet[2,3] introduces proactive error correction by treating state update as an online learning process that minimizes the <strong>Mean Squared Error (MSE)</strong>.</p>
+        <p>DeltaNet[3,4] introduces proactive error correction by treating state update as an online learning process that minimizes the <strong>Mean Squared Error (MSE)</strong>.</p>
         
         <p><strong>Defining the Loss Function and Calculating the Gradient:</strong><br>
         At each step \(t\), the state \(S\) minimizes the MSE loss \(L_t(S)\):</p>
@@ -529,6 +533,7 @@
         <div class="reference">
             <h3>Reference</h3>
             <ol>
+                <li>Han, Song, et al. "Learning both weights and connections for efficient neural network." Advances in neural information processing systems 28 (2015).</li>
                 <li>Chen, Junsong, et al. "Sana-video: Efficient video generation with block linear diffusion transformer." arXiv preprint arXiv:2509.24695 (2025).</li>
                 <li>Yang, Songlin, et al. "Parallelizing linear transformers with the delta rule over sequence length." Advances in neural information processing systems 37 (2024): 115491-115522.</li>
                 <li><a href="https://sustcsonglin.github.io/blog/2024/deltanet-2/" target="_blank">https://sustcsonglin.github.io/blog/2024/deltanet-2/</a></li>
