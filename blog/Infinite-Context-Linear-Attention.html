@@ -247,6 +247,60 @@
             color: #3498db;
         }
         
+        .subtitle {
+            font-size: 1.3em;
+            font-style: italic;
+            color: #555;
+            margin-bottom: 30px;
+            line-height: 1.6;
+            font-weight: 400;
+        }
+        
+        .meta-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            color: #666;
+            font-size: 0.95em;
+            margin-bottom: 30px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .meta-info .author {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-weight: 500;
+        }
+        
+        .meta-info .separator {
+            color: #ccc;
+        }
+        
+        .note-box {
+            background-color: #f8f9fa;
+            border-left: 4px solid #3498db;
+            padding: 20px 25px;
+            margin: 30px 0;
+            border-radius: 4px;
+        }
+        
+        .note-box strong {
+            color: #2c3e50;
+            font-weight: 600;
+        }
+        
+        .note-box a {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .note-box a:hover {
+            text-decoration: underline;
+        }
+        
         @media (max-width: 768px) {
             .container {
                 padding: 30px 20px;
@@ -263,6 +317,16 @@
             h3 {
                 font-size: 1.3em;
             }
+            
+            .subtitle {
+                font-size: 1.1em;
+            }
+            
+            .meta-info {
+                flex-wrap: wrap;
+                gap: 10px;
+                font-size: 0.9em;
+            }
         }
     </style>
 </head>
@@ -273,6 +337,14 @@
         </a>
         
         <h1>Infinite Context Length with Global but Constant Attention Memory</h1>
+        
+        <div class="meta-info">
+            <span class="author">🪶 Junsong Chen, Yuyang Zhao, Jincheng Yu, Enze Xie</span>
+            <span class="separator">•</span>
+            <span>Nov 24, 2025</span>
+            <span class="separator">•</span>
+            <span>⏱️ 20 min read</span>
+        </div>
         
         <p>In the age of AI dominated by Transformer models, the core component—the attention mechanism—is the undisputed star. The \(O(N^2)\) complexity bottleneck in Transformer models poses a formidable hardware challenge. In practice, the linearly growing KV Cache of standard Softmax Attention is rapidly consuming the scarce and VERY EXPENSIVE ($$$) DRAM (Working Memory)[1]. This memory consumption model imposes a critical cost and capacity limit on the scalability of long-context models.</p>
 
