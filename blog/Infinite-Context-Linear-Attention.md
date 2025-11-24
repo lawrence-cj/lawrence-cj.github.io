@@ -109,7 +109,7 @@ From this table, we can see a clear progression:
 These advanced update rules allow models to achieve far greater modeling capacity than simple linear accumulation, all while maintaining linear complexity. The "state" evolves from a simple "memory accumulator" into a complex, dynamic memory unit.
 
 ---
-## Long Context LLM via Causal Linear Attention
+## Background: Long Context LLM via Causal Linear Attention
 
 In this section, we introduce how state updating strategies are motivated and designed in LLMs.
 
