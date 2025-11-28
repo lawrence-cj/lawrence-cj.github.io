@@ -18,7 +18,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.6/css/academicons.min.css">
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <style>
-        /* 窄屏时横排显示社交图标 */
+        /* section title with a line below */
+        h2 {
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        
+        /* when the screen is narrow, display the social icons in a row */
         @media screen and (max-width: 960px) {
             .social-icons {
                 flex-direction: row !important;
@@ -584,10 +591,15 @@
             <br>
 
             <h2 id="industry-projects" style="margin: 2px 0px -15px;">Industry Projects</h2>
+            
+            <p style="margin-top: 20px; margin-bottom: 25px; font-size: 1.05rem; line-height: 1.6;">
+                Our research <strong>SANA</strong> contributes to NVIDIA's flagship generative AI projects including <a href="https://www.nvidia.com/en-us/geforce/technologies/dlss/" target="_blank" style="color: #0366d6;">DLSS</a> and <a href="https://www.nvidia.com/en-us/ai/cosmos/" target="_blank" style="color: #0366d6;">Cosmos</a>. Besides, <strong>SANA-Sprint</strong> is in <a href="https://blogs.nvidia.com/blog/rtx-ai-garage-blueprint-3d-object-nim-microsoft-trellis/" target="_blank" style="color: #0366d6;">NVIDIA 3D AI Blueprint</a>.
+            </p>
+
             <div class="publications">
                 <div class="pub-row" style="display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;">
                     <div class="video-item" style="flex: 0 1 100px;">
-                        <div class="title" style="margin-bottom: 10px; text-align: center;">
+                        <div class="title" style="margin-bottom: 10px; text-align: center; margin-top: -20px;">
                             <a href="https://youtu.be/9Uch931cDx8?list=TLGGkm813752dyQwMTA3MjAyNQ" target="_blank">NVIDIA DLSS: Supreme Speed, Superior Visuals, Powered by AI</a>
                         </div>
                         <div class="video-container" style="position: relative; width: 315px; padding-bottom: 260px; height: 0; overflow: hidden; margin: 0 auto;">
@@ -600,7 +612,7 @@
                     </div>
                     
                     <div class="video-item" style="flex: 0 1 100px;">
-                        <div class="title" style="margin-bottom: 10px; text-align: center;">
+                        <div class="title" style="margin-bottom: 10px; text-align: center; margin-top: -20px;">
                             <a href="https://youtu.be/_YXbkGuw3O8?list=TLGGhuo3TCDOvVIwMTA3MjAyNQ" target="_blank">NVIDIA Cosmos: A World Foundation Model Platform for Physical AI</a>
                         </div>
                         <div class="video-container" style="position: relative; width: 315px; padding-bottom: 260px; height: 0; overflow: hidden; margin: 0 auto;">
@@ -612,7 +624,7 @@
                         </div>
                     </div>
                     <div class="video-item" style="flex: 0 1 100px;">
-                        <div class="title" style="margin-bottom: 10px; text-align: center;">
+                        <div class="title" style="margin-bottom: 10px; text-align: center; margin-top: -20px;">
                             <a href="https://blogs.nvidia.com/blog/rtx-ai-garage-blueprint-3d-object-nim-microsoft-trellis/" target="_blank">What are NVIDIA NIM Microservices and AI Blueprints for RTX AI PCs?</a>
                         </div>
                         <div class="video-container" style="position: relative; width: 315px; padding-bottom: 260px; height: 0; overflow: hidden; margin: 0 auto;">
@@ -671,19 +683,43 @@
 
             <h2 id="awards-and-honors">Awards & Honors</h2>
 
-            <h3 id="honors">Honors</h3>
-            <ul style="margin:0 0 5px;">
-                <li>Outstanding Graduate of Liaoning Province </li>
-            </ul>
-            <ul style="margin:0 0 5px;">
-            <li>National Scholarship </li>
-            </ul>
+            <style>
+                .award-item {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: baseline;
+                    margin: 0 0 15px;
+                    padding: 0;
+                }
+                .award-name {
+                    flex: 1;
+                    padding-right: 20px;
+                }
+                .award-year {
+                    flex-shrink: 0;
+                    font-weight: normal;
+                    color: #666;
+                }
+            </style>
+
+            <div class="award-item">
+                <div class="award-name">KAUST AI Rising Star Award</div>
+                <div class="award-year">2026</div>
+            </div>
+            <div class="award-item">
+                <div class="award-name">Outstanding Graduate of Liaoning Province</div>
+                <div class="award-year">2022</div>
+            </div>
+            <div class="award-item">
+                <div class="award-name">National Scholarship</div>
+                <div class="award-year">2020</div>
+            </div>
 
             <br>
 
             <h2 id="services">Services</h2>
             <ul style="margin:0 0 5px;">
-                <li><autocolor>Conference Reviewer: ICLR, ICML, NeurIPS, CVPR</autocolor></li>
+                <li><autocolor>Conference Reviewer: ICLR-2025, ICML-2025, NeurIPS-2025, ICLR-2026, CVPR-2026</autocolor></li>
             </ul>
             <ul style="margin:0 0 5px;">
                 <li><autocolor>Journal Reviewer: T-PAMI</autocolor></li>
