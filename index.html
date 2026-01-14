@@ -25,6 +25,23 @@
             margin-bottom: 20px;
         }
         
+        /* Oval avatar style */
+        .image.avatar.oval-avatar {
+            width: 140px;
+            height: 150px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 2px solid white;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        .image.avatar.oval-avatar img {
+            width: 120%;
+            height: 120%;
+            object-fit: cover;
+            border-radius: 0;
+            padding: 0;
+        }
+        
         /* when the screen is narrow, display the social icons in a row */
         @media screen and (max-width: 960px) {
             .social-icons {
@@ -38,6 +55,10 @@
             .social-icons a {
                 gap: 5px !important;
             }
+            .image.avatar.oval-avatar {
+                width: 150px;
+                height: 160px;
+            }
         }
     </style>
 </head>
@@ -45,7 +66,7 @@
 <body>
     <div class="wrapper">
         <header>
-            <a class="image avatar"><img src="JunsongChen/jschen_new2.jpg" alt="avatar"></a>
+            <a class="image avatar oval-avatar"><img src="JunsongChen/jschen_new2.jpg" alt="avatar"></a>
             <h1>Junsong Chen</h1>
             <h3>陈俊松</h3>
             <position style="font-size:1.10rem;">Ph.D. Student</position>
@@ -97,7 +118,7 @@
                 <li><strong>[01/2026]</strong> Awarded the Tencent Project Up Scholarship, 2026 (50W RMB, <strong style="color: red;"> 15 students in China</strong>).</li>
                 <li><strong>[12/2025]</strong> Awarded the KAUST AI Rising Star Award, 2026.</li>
                 <li><strong>[11/2025]</strong>
-                    <a href="https://nvlabs.github.io/Sana/Video">🏃SANA-Video</a> is released and <a href="https://github.com/NVlabs/Sana/blob/main/asset/docs/sana_video.md">open-sourced</a> 🎬️.
+                    <a href="https://nvlabs.github.io/Sana/Video">📺SANA-Video</a> is released and <a href="https://github.com/NVlabs/Sana/blob/main/asset/docs/sana_video.md">open-sourced</a> 🎬️.
                 </li>
                 <li><strong>[6/2025]</strong>
                     <a href="https://nvlabs.github.io/Sana/Sprint">🏃SANA-Sprint(<strong><i style="color:#e74d3c">Highlight</i></strong>)</a>, <a href="https://hanlab.mit.edu/projects/dc-ae-1-5">DC-AE 1.5</a> and <a href="https://hanlab.mit.edu/projects/dc-ar">DC-AR</a> are all accepted to ICCV’25 ⛱️.
