@@ -16,24 +16,128 @@
     <link rel="stylesheet" href="JunsongChen/publications-no-dark-mode.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.6/css/academicons.min.css">
-    <script async defer src="https://buttons.github.io/buttons.js"></script>
     <style>
-        /* section title with a line below */
-        h2 {
-            border-bottom: 2px solid #e0e0e0;
-            padding-bottom: 10px;
-            margin-bottom: 20px;
+        :root {
+            --card: #ffffff;
+            --text: #2f2b27;
+            --muted: #6c645d;
+            --accent: #d97757;
+            --accent-soft: #f3ded4;
+            --line: #ece3d8;
+            --shadow: 0 10px 24px rgba(53, 34, 20, 0.07), 0 30px 70px rgba(53, 34, 20, 0.09);
         }
-        
-        /* Oval avatar style */
+
+        body {
+            background: #ffffff;
+            color: var(--text);
+        }
+
+        .wrapper {
+            width: min(1160px, 100%);
+            margin: 0 auto !important;
+            padding: 34px 30px 72px;
+            display: flex;
+            gap: 36px;
+            align-items: flex-start;
+            box-sizing: border-box;
+        }
+
+        header {
+            width: 256px !important;
+            position: sticky !important;
+            top: 24px;
+            float: none !important;
+            padding: 18px 16px 14px !important;
+            border: none;
+            border-radius: 20px;
+            background: var(--card);
+            box-shadow: var(--shadow);
+            text-align: center;
+        }
+
+        section {
+            float: none !important;
+            width: auto !important;
+            flex: 1;
+            min-width: 0;
+            padding: 24px 30px 34px !important;
+            border: none;
+            border-radius: 20px;
+            background: var(--card);
+            box-shadow: var(--shadow);
+        }
+
+        h1,
+        h2,
+        h3 {
+            color: #30261f !important;
+        }
+
+        h1 {
+            margin-bottom: 6px !important;
+        }
+
+        h3 {
+            color: #7f6c5f !important;
+            margin-bottom: 12px !important;
+        }
+
+        section h2 {
+            position: relative;
+            border-bottom: 1px solid var(--line);
+            padding-bottom: 10px !important;
+            margin: 26px 0 18px !important;
+            font-weight: 700;
+        }
+
+        section > h2:first-child {
+            margin-top: 0 !important;
+        }
+
+        section h2::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: -1px;
+            width: 74px;
+            height: 2px;
+            background: var(--accent);
+        }
+
+        p,
+        li,
+        em,
+        .periodical,
+        .author,
+        email,
+        autocolor {
+            color: var(--muted) !important;
+        }
+
+        a {
+            color: #2f2b27;
+            text-decoration-color: #e2b5a1;
+            text-underline-offset: 2px;
+        }
+
+        a:hover {
+            color: var(--accent);
+        }
+
+        a[style*="#0366d6"] {
+            color: #a4593d !important;
+        }
+
         .image.avatar.oval-avatar {
-            width: 140px;
-            height: 150px;
+            width: 132px;
+            height: 142px;
             border-radius: 50%;
             overflow: hidden;
-            border: 2px solid white;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border: 3px solid #fff;
+            box-shadow: 0 12px 22px rgba(103, 69, 46, 0.18);
+            margin-bottom: 10px;
         }
+
         .image.avatar.oval-avatar img {
             width: 120%;
             height: 120%;
@@ -41,23 +145,254 @@
             border-radius: 0;
             padding: 0;
         }
-        
-        /* when the screen is narrow, display the social icons in a row */
-        @media screen and (max-width: 960px) {
+
+        .social-icons a {
+            background: #fff;
+            border: none;
+            border-radius: 999px;
+            color: #624f43 !important;
+            transition: all 0.2s ease;
+            padding: 8px 10px;
+            box-sizing: border-box;
+            width: 100%;
+            display: flex !important;
+            align-items: center !important;
+            gap: 10px !important;
+            justify-content: flex-start !important;
+            min-height: 42px;
+            font-size: 1.02rem !important;
+        }
+
+        .social-icons a i {
+            width: 28px !important;
+            text-align: center !important;
+        }
+
+        .social-icons a:hover {
+            background: #fff7f4;
+            color: var(--accent) !important;
+            transform: translateY(-1px);
+        }
+
+        .publications ol.bibliography > li {
+            position: relative;
+            margin: 0 0 14px;
+            padding: 14px 14px 14px 16px;
+            border: 1px solid #eee7de;
+            border-radius: 12px;
+            background: #ffffff;
+        }
+
+        .publications ol.bibliography > li::before {
+            content: none;
+        }
+
+        .pub-row {
+            align-items: flex-start !important;
+        }
+
+        .publications .pub-row > .col-sm-3 {
+            padding-left: 10px !important;
+            padding-right: 10px !important;
+            box-sizing: border-box;
+        }
+
+        .publications .pub-row > .col-sm-9 {
+            padding-left: 14px !important;
+            padding-right: 8px !important;
+            box-sizing: border-box;
+        }
+
+        .title a {
+            color: #2f2b27 !important;
+            font-weight: 600;
+        }
+
+        .title a:hover {
+            color: var(--accent) !important;
+        }
+
+        .badge {
+            background: #f8e6de !important;
+            color: #8f4f38 !important;
+            border: 1px solid #efc6b7;
+            border-radius: 8px;
+            font-weight: 700;
+        }
+
+        .btn.btn-sm {
+            border: 1px solid #efc6b7 !important;
+            border-radius: 999px !important;
+            background: #fff7f4 !important;
+            color: #935640 !important;
+            padding: 3px 10px !important;
+            margin-right: 4px !important;
+            display: inline-block;
+        }
+
+        .btn.btn-sm:hover {
+            background: #ffece4 !important;
+            border-color: #e8aa93 !important;
+            color: #a0583e !important;
+        }
+
+        .publications .links {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .publications .links > a[href*="github.com"]:not(.github-button):not(.btn) {
+            border: 1px solid #efc6b7;
+            border-radius: 999px;
+            background: #fff7f4;
+            color: #935640 !important;
+            padding: 3px 10px;
+            display: inline-block;
+            line-height: 1.3;
+            font-size: 12px !important;
+            font-weight: 500;
+        }
+
+        .publications .links > a[href*="github.com"]:not(.github-button):not(.btn):hover {
+            background: #ffece4;
+            border-color: #e8aa93;
+            color: #a0583e !important;
+        }
+
+        .publications .links .github-button {
+            display: none !important;
+        }
+
+        .publications .links iframe.github-btn {
+            display: none !important;
+        }
+
+        .star-count-badge {
+            display: inline-flex;
+            align-items: center;
+            line-height: 1;
+            color: #935640 !important;
+            font-size: 12px;
+            vertical-align: middle;
+            margin-left: 2px;
+            gap: 3px;
+        }
+
+        .star-count-badge .star-label {
+            display: inline-flex;
+            align-items: center;
+            padding: 0;
+            font-weight: 600;
+            line-height: 1.2;
+        }
+
+        .star-count-badge .star-value {
+            display: inline-flex;
+            align-items: center;
+            padding: 0;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        .star-count-badge:hover {
+            color: #a0583e !important;
+        }
+
+        .news-list.collapsed li:nth-child(n+7) {
+            display: none;
+        }
+
+        .news-toggle {
+            display: block;
+            margin: 12px auto 2px;
+            border: 1px solid #efc6b7;
+            background: #fff4ef;
+            color: var(--accent);
+            font-size: 1.32rem;
+            font-weight: 700;
+            line-height: 1;
+            cursor: pointer;
+            padding: 4px 10px;
+            min-width: 38px;
+            min-height: 34px;
+            text-align: center;
+            border-radius: 999px;
+            box-shadow: 0 4px 10px rgba(69, 44, 27, 0.1);
+            transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+        }
+
+        .news-toggle:hover {
+            background: #ffece4;
+            color: #c96b4d;
+            box-shadow: 0 6px 12px rgba(69, 44, 27, 0.12);
+            transform: translateY(-1px);
+        }
+
+        .news-toggle:focus-visible {
+            outline: 2px solid #efc6b7;
+            outline-offset: 2px;
+        }
+
+        .award-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin: 0 0 10px;
+            padding: 10px 12px;
+            border: 1px solid #eee7de;
+            border-radius: 10px;
+            background: #ffffff;
+        }
+
+        .award-item:last-of-type {
+            margin-bottom: 0;
+        }
+
+        .award-name {
+            flex: 1;
+            padding-right: 20px;
+        }
+
+        .award-year {
+            flex-shrink: 0;
+            font-weight: 600;
+            color: #8b7768;
+        }
+
+        @media screen and (max-width: 980px) {
+            .wrapper {
+                display: block;
+                padding: 16px 16px 36px;
+            }
+
+            header {
+                position: static !important;
+                width: auto !important;
+                margin-bottom: 14px;
+            }
+
+            section {
+                width: auto !important;
+                padding: 18px 14px 24px !important;
+            }
+
             .social-icons {
                 flex-direction: row !important;
                 justify-content: center !important;
                 flex-wrap: wrap !important;
+                gap: 8px !important;
             }
+
+            .social-icons a {
+                width: auto;
+                min-width: 44px;
+                padding: 8px 10px;
+            }
+
             .social-icons a span {
                 display: none !important;
-            }
-            .social-icons a {
-                gap: 5px !important;
-            }
-            .image.avatar.oval-avatar {
-                width: 150px;
-                height: 160px;
             }
         }
     </style>
@@ -114,8 +449,8 @@
             </p>
 
             <h2 id="news">News</h2>
-            <ul>
-                <li><strong>[01/2026]</strong> Awarded the Tencent Project Up Scholarship, 2026 (50W RMB, <strong style="color: red;"> 15 students in China</strong>).</li>
+            <ul id="news-list" class="news-list collapsed">
+                <li><strong>[01/2026]</strong> Awarded the <a href="https://join.qq.com/scholarship.html" target="_blank" rel="noopener noreferrer">Tencent Project Up Scholarship</a>, 2026 (50W RMB, <strong style="color: red;"> 15 students in China</strong>).</li>
                 <li><strong>[01/2026]</strong> Awarded the KAUST AI Rising Star Award, 2026. (25 speakers over the world).</li>
                 <li><strong>[01/2026]</strong>
                     <a href="https://nvlabs.github.io/Sana/Video">📺SANA-Video(<strong><i style="color:#e74d3c">Oral</i></strong>)</a> is accepted to ICLR’26 🇧🇷️.
@@ -159,6 +494,7 @@
                     is accepted to CVPR’23.
                 </li>
             </ul>
+            <button id="news-toggle" class="news-toggle" type="button" aria-expanded="false" aria-label="Expand news">▾</button>
 
             <h2 id="blog" style="margin: 2px 0px -15px;">Blogs</h2>
             <div class="publications">
@@ -761,27 +1097,8 @@
 
             <h2 id="awards-and-honors">Awards & Honors</h2>
 
-            <style>
-                .award-item {
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: baseline;
-                    margin: 0 0 15px;
-                    padding: 0;
-                }
-                .award-name {
-                    flex: 1;
-                    padding-right: 20px;
-                }
-                .award-year {
-                    flex-shrink: 0;
-                    font-weight: normal;
-                    color: #666;
-                }
-            </style>
-
             <div class="award-item">
-                <div class="award-name">Tencent Project Up Scholarship
+                <div class="award-name"><a href="https://join.qq.com/scholarship.html" target="_blank" rel="noopener noreferrer">Tencent Project Up Scholarship</a>
                     (50W RMB, <strong style="color: red;"> 15 students in China</strong>)</div>
                 <div class="award-year">2026</div>
             </div>
@@ -817,6 +1134,92 @@
         <footer></footer>
     </div>
 
+    <script>
+        (function () {
+            var newsList = document.getElementById("news-list");
+            var toggle = document.getElementById("news-toggle");
+            if (!newsList || !toggle) {
+                return;
+            }
+            var items = newsList.querySelectorAll("li");
+            if (items.length <= 6) {
+                toggle.style.display = "none";
+                return;
+            }
+            toggle.addEventListener("click", function () {
+                var isCollapsed = newsList.classList.toggle("collapsed");
+                toggle.textContent = isCollapsed ? "▾" : "▴";
+                toggle.setAttribute("aria-label", isCollapsed ? "Expand news" : "Collapse news");
+                toggle.setAttribute("aria-expanded", String(!isCollapsed));
+            });
+        })();
+    </script>
+    <script>
+        (function () {
+            var githubButtons = document.querySelectorAll(".publications .links a.github-button");
+            var repoCountCache = {};
+            var formatter = new Intl.NumberFormat("en-US");
+
+            function fetchStarCount(owner, repo) {
+                var cacheKey = owner + "/" + repo;
+                if (!repoCountCache[cacheKey]) {
+                    repoCountCache[cacheKey] = fetch("https://api.github.com/repos/" + owner + "/" + repo)
+                        .then(function (res) {
+                            if (!res.ok) {
+                                throw new Error("GitHub API error");
+                            }
+                            return res.json();
+                        })
+                        .then(function (data) {
+                            if (typeof data.stargazers_count === "number") {
+                                return formatter.format(data.stargazers_count);
+                            }
+                            return "--";
+                        })
+                        .catch(function () {
+                            return "--";
+                        });
+                }
+                return repoCountCache[cacheKey];
+            }
+
+            githubButtons.forEach(function (btn) {
+                if (!btn.href || btn.dataset.badgeInjected === "true") {
+                    return;
+                }
+                var match = btn.href.match(/github\.com\/([^\/]+)\/([^\/?#]+)/i);
+                if (!match) {
+                    return;
+                }
+                var owner = match[1];
+                var repo = match[2];
+                var badgeLink = document.createElement("a");
+                badgeLink.className = "star-count-badge";
+                badgeLink.href = "https://github.com/" + owner + "/" + repo + "/stargazers";
+                badgeLink.target = "_blank";
+                badgeLink.rel = "noopener noreferrer";
+                badgeLink.setAttribute("aria-label", "GitHub stars");
+
+                var labelSpan = document.createElement("span");
+                labelSpan.className = "star-label";
+                labelSpan.textContent = "⭐";
+                badgeLink.appendChild(labelSpan);
+
+                var valueSpan = document.createElement("span");
+                valueSpan.className = "star-value";
+                valueSpan.textContent = "...";
+                badgeLink.appendChild(valueSpan);
+
+                btn.insertAdjacentElement("afterend", badgeLink);
+                btn.dataset.badgeInjected = "true";
+                btn.remove();
+
+                fetchStarCount(owner, repo).then(function (countText) {
+                    valueSpan.textContent = countText;
+                });
+            });
+        })();
+    </script>
     <script src="JunsongChen/scale.fix.js"></script>
     <iframe id="oomeFMum" frameborder="0" src="JunsongChen/translateSandbox.html" style="width: 0px; height: 0px; display: none;"></iframe>
     <iframe id="M1LVaoYI" frameborder="0" src="JunsongChen/translateSandbox(1).html" style="width: 0px; height: 0px; display: none;"></iframe>
