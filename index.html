@@ -53,8 +53,8 @@
             padding: 18px 16px 14px !important;
             border: none;
             border-radius: 20px;
-            background: var(--card);
-            box-shadow: var(--shadow);
+            background: transparent;
+            box-shadow: none;
             text-align: center;
         }
 
@@ -66,8 +66,8 @@
             padding: 24px 30px 34px !important;
             border: none;
             border-radius: 20px;
-            background: var(--card);
-            box-shadow: var(--shadow);
+            background: transparent;
+            box-shadow: none;
         }
 
         h1,
@@ -152,9 +152,9 @@
         }
 
         .social-icons a {
-            background: var(--btn-bg);
-            border: none;
-            border-radius: 999px;
+            background: transparent;
+            border: 1px solid #e3d0bf;
+            border-radius: 14px;
             color: #5f4d40 !important;
             transition: all 0.2s ease;
             padding: 8px 10px;
@@ -174,7 +174,9 @@
         }
 
         .social-icons a:hover {
-            background: var(--btn-hover);
+            background: transparent;
+            border-color: #d8bca6;
+            box-shadow: 0 2px 8px rgba(86, 56, 34, 0.05);
             color: var(--accent) !important;
             transform: translateY(-1px);
         }
@@ -183,9 +185,10 @@
             position: relative;
             margin: 0 0 14px;
             padding: 14px 14px 14px 16px;
-            border: 1px solid var(--line);
+            border: 1px solid #e3d0bf;
             border-radius: 12px;
-            background: var(--card);
+            background: transparent;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
         }
 
         .publications ol.bibliography > li::before {
@@ -350,9 +353,16 @@
             align-items: baseline;
             margin: 0 0 10px;
             padding: 10px 12px;
-            border: 1px solid var(--line);
+            border: 1px solid #e3d0bf;
             border-radius: 10px;
-            background: var(--card);
+            background: transparent;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .publications ol.bibliography > li:hover,
+        .award-item:hover {
+            border-color: #d8bca6;
+            box-shadow: 0 2px 8px rgba(86, 56, 34, 0.05);
         }
 
         .award-item:last-of-type {
