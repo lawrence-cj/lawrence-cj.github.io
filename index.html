@@ -138,9 +138,9 @@
             color: #b56c4d !important;
         }
 
-        .image.avatar.oval-avatar {
+        .image.avatar.circle-avatar {
             width: 132px;
-            height: 142px;
+            height: 132px;
             border-radius: 50%;
             overflow: hidden;
             border: 3px solid #fff;
@@ -148,12 +148,15 @@
             margin-bottom: 10px;
         }
 
-        .image.avatar.oval-avatar img {
-            width: 120%;
-            height: 120%;
+        .image.avatar.circle-avatar img {
+            display: block;
+            width: 100%;
+            height: 100%;
             object-fit: cover;
             border-radius: 0;
             padding: 0;
+            transform: translate(-5%, 8%) scale(1.16);
+            transform-origin: center;
         }
 
         .social-icons a {
@@ -425,7 +428,7 @@
 <body>
     <div class="wrapper">
         <header>
-            <a class="image avatar oval-avatar"><img src="JunsongChen/jschen_new2.jpg" alt="avatar"></a>
+            <a class="image avatar circle-avatar"><img src="JunsongChen/avatar.jpg" alt="avatar"></a>
             <h1>Junsong Chen</h1>
             <h3>陈俊松</h3>
             <position style="font-size:1.10rem;">Ph.D. Student</position>
