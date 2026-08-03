@@ -388,6 +388,21 @@
             color: #9b8f82;
         }
 
+        .visit-counter {
+            display: inline-flex;
+            opacity: 0.82;
+            transition: opacity 0.15s ease;
+        }
+
+        .visit-counter:hover {
+            opacity: 1;
+        }
+
+        .visit-counter img {
+            display: block;
+            height: 20px;
+        }
+
         @media screen and (max-width: 980px) {
             .wrapper {
                 display: block;
@@ -1321,7 +1336,11 @@
             <p><small>Powered by Jekyll and <a href="https://github.com/yaoyao-liu/minimal-light" target="_blank" rel="noopener">Minimal Light</a> theme.</small></p>
         </section>
 
-        <footer></footer>
+        <footer>
+            <a class="visit-counter" href="https://hits.sh/junsongc.top/" target="_blank" rel="noopener" aria-label="View homepage visit statistics">
+                <img src="https://hits.sh/junsongc.top.svg?style=flat-square&amp;label=views&amp;color=da7756&amp;labelColor=473d35" alt="Total homepage visits">
+            </a>
+        </footer>
     </div>
 
     <script>
