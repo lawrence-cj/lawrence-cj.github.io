@@ -122,6 +122,16 @@
             color: var(--text) !important;
         }
 
+        #news-list .paper-title-link {
+            color: var(--text) !important;
+            text-decoration-color: var(--line-strong);
+        }
+
+        #news-list .paper-title-link:hover {
+            color: var(--text) !important;
+            text-decoration-color: currentColor;
+        }
+
         a {
             color: #b56c4d;
             text-decoration-color: #d7b49e;
@@ -320,7 +330,7 @@
             color: #b56c4d !important;
         }
 
-        .news-list.collapsed li:nth-child(n+7) {
+        .news-list.collapsed li.older-news {
             display: none;
         }
 
@@ -500,6 +510,12 @@
 
             <h2 id="news">News</h2>
             <ul id="news-list" class="news-list collapsed">
+                <li><strong>[08/2026]</strong>
+                    <a href="https://nvlabs.github.io/Sana/Sol-Engine/H3-OnDevice/" target="_blank" rel="noopener noreferrer">☀️ Sol-Engine expands to MiniMax-H3</a> and a growing range of video models across hardware platforms, achieving 3.92× acceleration on DGX Spark and 4.52× on GeForce RTX 5090.
+                </li>
+                <li><strong>[07/2026]</strong>
+                    We released <a href="https://nvlabs.github.io/Sana/Video2/" target="_blank" rel="noopener noreferrer">📺 SANA-Video 2.0</a>, <a href="https://nvlabs.github.io/Sana/Sol-Engine/" target="_blank" rel="noopener noreferrer">☀️ Sol-Engine</a>, and <a href="https://nvlabs.github.io/Sana/Sol-Attn/" target="_blank" rel="noopener noreferrer">☀️ Sol-Attn</a> for efficient video generation and full-stack inference acceleration.
+                </li>
                 <li><strong>[07/2026]</strong> Awarded the <a href="https://mp.weixin.qq.com/s/pHNidiCeRxrPtR3WqNq0xA" target="_blank" rel="noopener noreferrer">WAIC Youth Outstanding Paper Award</a> for <a href="https://pixart-alpha.github.io" target="_blank" rel="noopener noreferrer">PixArt-α</a> (<strong style="color: red;">10 papers selected</strong>).</li>
                 <li><strong>[05/2026]</strong>
                     <a href="https://nvlabs.github.io/Sana/WM">🌎 SANA-WM</a> and <a href="https://nvlabs.github.io/Sana/Streaming">🎬 SANA-Streaming</a> are released.
@@ -523,28 +539,28 @@
                     <a href="https://hanlab.mit.edu/projects/dc-ae"> DCAE </a>,
                     <a href="https://hanlab.mit.edu/projects/hart"> HART </a> are all accepted to ICLR’25.
                 </li>
-                <li><strong>[10/2024]</strong>
-                    “<a href="https://nvlabs.github.io/Sana">⚡️SANA: Efficient High-Resolution Image Synthesis with Linear Diffusion Transformer</a>”
+                <li class="older-news"><strong>[10/2024]</strong>
+                    “<a class="paper-title-link" href="https://nvlabs.github.io/Sana">⚡️SANA: Efficient High-Resolution Image Synthesis with Linear Diffusion Transformer</a>”
                     is released.
                 </li>
-                <li><strong>[06/2024]</strong>
-                    “<a href="https://pixart-alpha.github.io/PixArt-sigma-project">PixArt-Σ: Weak-to-Strong Training of Diffusion Transformer for 4K Text-to-Image Generation</a>”
+                <li class="older-news"><strong>[06/2024]</strong>
+                    “<a class="paper-title-link" href="https://pixart-alpha.github.io/PixArt-sigma-project">PixArt-Σ: Weak-to-Strong Training of Diffusion Transformer for 4K Text-to-Image Generation</a>”
                     is accepted to ECCV’24.
                 </li>
-                <li><strong>[03/2024]</strong>
-                    “<a href="https://pixart-alpha.github.io">PixArt-δ: Fast and Controllable Image Generation with Latent Consistency Model</a>”
+                <li class="older-news"><strong>[03/2024]</strong>
+                    “<a class="paper-title-link" href="https://pixart-alpha.github.io">PixArt-δ: Fast and Controllable Image Generation with Latent Consistency Model</a>”
                     is accepted to ICML’24 workshop.
                 </li>
-                <li><strong>[01/2024]</strong>
-                    “<a href="https://pixart-alpha.github.io">PixArt-α: Fast Training of Diffusion Transformer for Photorealistic Text-to-Image Synthesis</a>”
+                <li class="older-news"><strong>[01/2024]</strong>
+                    “<a class="paper-title-link" href="https://pixart-alpha.github.io">PixArt-α: Fast Training of Diffusion Transformer for Photorealistic Text-to-Image Synthesis</a>”
                     is accepted as <strong><i style="color:#e74d3c">Spotlight</i></strong> paper to ICLR’24.
                 </li>
-                <li><strong>[07/2023]</strong>
-                    “<a href="https://chongjiange.github.io/metabev.htm">MetaBEV: Solving Sensor Failures for BEV Detection and Map Segmentation</a>”
+                <li class="older-news"><strong>[07/2023]</strong>
+                    “<a class="paper-title-link" href="https://chongjiange.github.io/metabev.htm">MetaBEV: Solving Sensor Failures for BEV Detection and Map Segmentation</a>”
                     is accepted to ICCV’23.
                 </li>
-                <li><strong>[03/2023]</strong>
-                    “<a href="https://arkittrack.github.io">ARKitTrack: A New Diverse Dataset for Tracking Using Mobile RGB-D Data</a>”
+                <li class="older-news"><strong>[03/2023]</strong>
+                    “<a class="paper-title-link" href="https://arkittrack.github.io">ARKitTrack: A New Diverse Dataset for Tracking Using Mobile RGB-D Data</a>”
                     is accepted to CVPR’23.
                 </li>
             </ul>
@@ -638,6 +654,80 @@
                                     <a href="https://arxiv.org/abs/2607.21553" class="btn btn-sm z-depth-0" role="button" target="_blank" style="font-size:12px;">Paper</a>
                                     <a href="https://nvlabs.github.io/Sana/Video2" class="btn btn-sm z-depth-0" role="button" target="_blank" style="font-size:12px;">Project Page</a>
                                     <a href="https://github.com/NVlabs/Sana">Code</a>
+                                    <a class="github-button" href="https://github.com/NVlabs/Sana" data-icon="octicon-star" data-show-count="true" aria-label="" target="_blank">star</a>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+
+                    <br>
+
+                    <li>
+                        <div class="pub-row">
+                            <div class="col-sm-3 abbr" style="position: relative; padding-right: 15px; padding-left: 15px;">
+                                <video src="JunsongChen/sol-attn.mp4" class="teaser img-fluid z-depth-1" style="width: auto; height: 79%; aspect-ratio: 16 / 9;" poster="JunsongChen/sol-attn.webp" autoplay loop muted playsinline preload="metadata" aria-label="Dense attention and Sol-Attn video comparison"></video>
+                                <abbr class="badge">arXiv</abbr>
+                            </div>
+                            <div class="col-sm-9" style="position: relative; padding-right: 15px; padding-left: 16px;">
+                                <div class="title">
+                                    <a href="https://arxiv.org/abs/2607.24027">☀️ Sol-Attn: Accelerating Video Generation Inference via On-the-Fly Attention Sparsification</a>
+                                </div>
+                                <div class="author">
+                                    Haopeng Li,
+                                    <a href="https://scholar.google.com/citations?user=xfp2Zv8AAAAJ&amp;hl=zh-CN" target="_blank" style="color: dimgrey;">Yitong Li</a>,
+                                    <a href="https://lawrence-cj.github.io/" target="_blank" style="color: dimgrey;"><strong>Junsong Chen</strong></a>,
+                                    <a href="https://owen718.github.io/" target="_blank" style="color: dimgrey;">Tian Ye</a>,
+                                    <a href="https://haozheliu-st.github.io/" target="_blank" style="color: dimgrey;">Haozhe Liu</a>,
+                                    <a href="https://github.com/yujincheng08" target="_blank" style="color: dimgrey;">Jincheng Yu</a>,
+                                    Duomin Wang,
+                                    Ruihua Zhang,
+                                    Zeke Xie,
+                                    <a href="https://xieenze.github.io/" target="_blank" style="color: dimgrey;">Enze Xie</a>,
+                                    <a href="https://hanlab.mit.edu/songhan/" target="_blank" style="color: dimgrey;">Song Han</a>
+                                </div>
+                                <div class="periodical">
+                                    <em><strong>arXiv</strong>, 2026.</em>
+                                </div>
+                                <div class="links">
+                                    <a href="https://arxiv.org/abs/2607.24027" class="btn btn-sm z-depth-0" role="button" target="_blank" style="font-size:12px;">Paper</a>
+                                    <a href="https://nvlabs.github.io/Sana/Sol-Attn/" class="btn btn-sm z-depth-0" role="button" target="_blank" style="font-size:12px;">Project Page</a>
+                                    <a href="https://github.com/NVlabs/Sana/tree/sol-engine">Code</a>
+                                    <a class="github-button" href="https://github.com/NVlabs/Sana" data-icon="octicon-star" data-show-count="true" aria-label="" target="_blank">star</a>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+
+                    <br>
+
+                    <li>
+                        <div class="pub-row">
+                            <div class="col-sm-3 abbr" style="position: relative; padding-right: 15px; padding-left: 15px;">
+                                <video src="JunsongChen/sol-engine.mp4" class="teaser img-fluid z-depth-1" style="width: auto; height: 79%; aspect-ratio: 16 / 9;" poster="JunsongChen/sol-engine.jpg" autoplay loop muted playsinline preload="metadata" aria-label="Sol Video Inference Engine video montage"></video>
+                                <abbr class="badge">arXiv</abbr>
+                            </div>
+                            <div class="col-sm-9" style="position: relative; padding-right: 15px; padding-left: 16px;">
+                                <div class="title">
+                                    <a href="https://arxiv.org/abs/2606.23743">☀️ Sol Video Inference Engine: Agent-Native Full-Stack Acceleration Framework for Efficient Video Generation</a>
+                                </div>
+                                <div class="author">
+                                    <a href="https://scholar.google.com/citations?user=xfp2Zv8AAAAJ&amp;hl=zh-CN" target="_blank" style="color: dimgrey;">Yitong Li</a>,
+                                    <a href="https://lawrence-cj.github.io/" target="_blank" style="color: dimgrey;"><strong>Junsong Chen</strong></a>,
+                                    Haopeng Li,
+                                    <a href="https://haozheliu-st.github.io/" target="_blank" style="color: dimgrey;">Haozhe Liu</a>,
+                                    <a href="https://github.com/yujincheng08" target="_blank" style="color: dimgrey;">Jincheng Yu</a>,
+                                    Ligeng Zhu,
+                                    <a href="http://luoping.me/" target="_blank" style="color: dimgrey;">Ping Luo</a>,
+                                    <a href="https://hanlab.mit.edu/songhan/" target="_blank" style="color: dimgrey;">Song Han</a>,
+                                    <a href="https://xieenze.github.io/" target="_blank" style="color: dimgrey;">Enze Xie</a>
+                                </div>
+                                <div class="periodical">
+                                    <em><strong>arXiv</strong>, 2026.</em>
+                                </div>
+                                <div class="links">
+                                    <a href="https://arxiv.org/abs/2606.23743" class="btn btn-sm z-depth-0" role="button" target="_blank" style="font-size:12px;">Paper</a>
+                                    <a href="https://nvlabs.github.io/Sana/Sol-Engine/" class="btn btn-sm z-depth-0" role="button" target="_blank" style="font-size:12px;">Project Page</a>
+                                    <a href="https://github.com/NVlabs/Sana/tree/sol-engine">Code</a>
                                     <a class="github-button" href="https://github.com/NVlabs/Sana" data-icon="octicon-star" data-show-count="true" aria-label="" target="_blank">star</a>
                                 </div>
                             </div>
@@ -1353,8 +1443,8 @@
             if (!newsList || !toggle) {
                 return;
             }
-            var items = newsList.querySelectorAll("li");
-            if (items.length <= 6) {
+            var olderItems = newsList.querySelectorAll("li.older-news");
+            if (!olderItems.length) {
                 toggle.style.display = "none";
                 return;
             }
