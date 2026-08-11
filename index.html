@@ -199,6 +199,87 @@
             transform: translateY(-1px);
         }
 
+        .publication-filter-panel {
+            display: block;
+            margin: 14px 0 16px;
+            padding: 9px 10px 10px;
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            background: rgba(255, 252, 248, 0.58);
+        }
+
+        .publication-filter-label {
+            flex: 0 0 auto;
+            color: var(--muted);
+            font-size: 0.76rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            white-space: nowrap;
+            display: block;
+            margin: 0 0 6px 2px;
+        }
+
+        .publication-filter-list {
+            display: flex;
+            flex-wrap: wrap;
+            column-gap: 5px;
+            row-gap: 3px;
+            min-width: 0;
+        }
+
+        .publication-filter {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            min-height: 28px;
+            padding: 3px 8px;
+            border: 1px solid transparent;
+            border-radius: 999px;
+            background: transparent;
+            color: #76685d;
+            font-family: inherit;
+            font-size: 0.82rem;
+            font-weight: 600;
+            line-height: 1.2;
+            cursor: pointer;
+            transition: background-color 0.18s ease, border-color 0.18s ease, color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
+        }
+
+        .publication-filter:hover {
+            border-color: var(--line-strong);
+            background: var(--btn-hover);
+            color: var(--text);
+            transform: translateY(-1px);
+        }
+
+        .publication-filter.is-active {
+            border-color: #dfc3ae;
+            background: var(--accent-soft);
+            color: #895139;
+            box-shadow: 0 2px 6px rgba(86, 56, 34, 0.05);
+        }
+
+        .publication-filter:focus-visible {
+            outline: 2px solid #d7b49e;
+            outline-offset: 2px;
+        }
+
+        .publication-filter-count {
+            min-width: 18px;
+            padding: 1px 5px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.72);
+            color: inherit;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        .publication-card[hidden] {
+            display: none !important;
+        }
+
         .publications ol.bibliography > li {
             position: relative;
             margin: 0 0 14px;
@@ -434,6 +515,10 @@
                 padding: 18px 14px 24px !important;
             }
 
+            .publication-filter-list {
+                width: 100%;
+            }
+
             .social-icons {
                 flex-direction: row !important;
                 justify-content: center !important;
@@ -619,9 +704,22 @@
             <br>
 
             <h2 id="publications" style="margin: 2px 0px -15px;">Selected Publications</h2>
+            <div class="publication-filter-panel">
+                <span class="publication-filter-label">Explore by topic</span>
+                <div class="publication-filter-list" role="group" aria-label="Filter selected publications by topic">
+                    <button class="publication-filter is-active" type="button" data-filter="all" aria-pressed="true">All <span class="publication-filter-count"></span></button>
+                    <button class="publication-filter" type="button" data-filter="image-generation" aria-pressed="false">Image Generation <span class="publication-filter-count"></span></button>
+                    <button class="publication-filter" type="button" data-filter="video-generation" aria-pressed="false">Video Generation <span class="publication-filter-count"></span></button>
+                    <button class="publication-filter" type="button" data-filter="few-step" aria-pressed="false">Few-Step Distillation <span class="publication-filter-count"></span></button>
+                    <button class="publication-filter" type="button" data-filter="inference-engine" aria-pressed="false">Inference Engine <span class="publication-filter-count"></span></button>
+                    <button class="publication-filter" type="button" data-filter="world-modeling" aria-pressed="false">World Modeling <span class="publication-filter-count"></span></button>
+                    <button class="publication-filter" type="button" data-filter="model-compression" aria-pressed="false">Model Compression <span class="publication-filter-count"></span></button>
+                    <button class="publication-filter" type="button" data-filter="perception" aria-pressed="false">Perception <span class="publication-filter-count"></span></button>
+                </div>
+            </div>
             <div class="publications">
-                <ol class="bibliography">
-                    <li>
+                <ol id="selected-publication-list" class="bibliography">
+                    <li class="publication-card" data-tags="video-generation">
                         <div class="pub-row">
                             <div class="col-sm-3 abbr" style="position: relative; padding-right: 15px; padding-left: 15px;">
                                 <video src="JunsongChen/sana-video-2.mp4" class="teaser img-fluid z-depth-1" style="width: auto; height: 79%; aspect-ratio: 16 / 9;" poster="JunsongChen/sana-video-2.jpg" autoplay loop muted playsinline preload="metadata" aria-label="SANA-Video 2.0 video montage"></video>
@@ -662,7 +760,7 @@
 
                     <br>
 
-                    <li>
+                    <li class="publication-card" data-tags="video-generation inference-engine">
                         <div class="pub-row">
                             <div class="col-sm-3 abbr" style="position: relative; padding-right: 15px; padding-left: 15px;">
                                 <video src="JunsongChen/sol-attn.mp4" class="teaser img-fluid z-depth-1" style="width: auto; height: 79%; aspect-ratio: 16 / 9;" poster="JunsongChen/sol-attn.webp" autoplay loop muted playsinline preload="metadata" aria-label="Dense attention and Sol-Attn video comparison"></video>
@@ -700,7 +798,7 @@
 
                     <br>
 
-                    <li>
+                    <li class="publication-card" data-tags="video-generation inference-engine">
                         <div class="pub-row">
                             <div class="col-sm-3 abbr" style="position: relative; padding-right: 15px; padding-left: 15px;">
                                 <video src="JunsongChen/sol-engine.mp4" class="teaser img-fluid z-depth-1" style="width: auto; height: 79%; aspect-ratio: 16 / 9;" poster="JunsongChen/sol-engine.jpg" autoplay loop muted playsinline preload="metadata" aria-label="Sol Video Inference Engine video montage"></video>
@@ -736,7 +834,7 @@
 
                     <br>
 
-                    <li>
+                    <li class="publication-card" data-tags="video-generation world-modeling">
                         <div class="pub-row">
                             <div class="col-sm-3 abbr" style="position: relative; padding-right: 15px; padding-left: 15px;">
                                 <video src="JunsongChen/sana-wm.mp4" class="teaser img-fluid z-depth-1" style="width: auto; height: 79%;" poster="JunsongChen/sana-wm.jpg" autoplay loop muted playsinline preload="metadata"></video>
@@ -773,7 +871,7 @@
 
                     <br>
 
-                    <li>
+                    <li class="publication-card" data-tags="video-generation">
                         <div class="pub-row">
                             <div class="col-sm-3 abbr" style="position: relative; padding-right: 15px; padding-left: 15px;">
                                 <video src="JunsongChen/sana-streaming.mp4" class="teaser img-fluid z-depth-1" style="width: auto; height: 79%;" poster="JunsongChen/sana-streaming.jpg" autoplay loop muted playsinline preload="metadata"></video>
@@ -809,7 +907,7 @@
 
                     <br>
 
-                    <li>
+                    <li class="publication-card" data-tags="video-generation">
                         <div class="pub-row">
                             <div class="col-sm-3 abbr" style="position: relative; padding-right: 15px; padding-left: 15px;">
                                 <video src="JunsongChen/104.mp4" class="teaser img-fluid z-depth-1" style="width: auto; height: 79%; aspect-ratio: 16 / 9;" poster="JunsongChen/sana-video.jpg" autoplay loop muted playsinline preload="metadata" aria-label="SANA-Video video montage"></video>
@@ -858,7 +956,7 @@
 
                     <br>
 
-                    <li>
+                    <li class="publication-card" data-tags="image-generation few-step">
                         <div class="pub-row">
                             <div class="col-sm-3 abbr" style="position: relative; padding-right: 15px; padding-left: 15px;">
                                 <img src="JunsongChen/sana-sprint-speed-video-4images-16fps.gif" class="teaser img-fluid z-depth-1" style="width: 100;height: 100%">
@@ -895,7 +993,7 @@
 
                     <br>
 
-                    <li>
+                    <li class="publication-card" data-tags="image-generation">
                         <div class="pub-row">
                             <div class="col-sm-3 abbr" style="position: relative; padding-right: 15px; padding-left: 15px;">
                                 <img src="JunsongChen/sana-1.5.png" class="teaser img-fluid z-depth-1" style="width: 100; height: 100%;">
@@ -936,7 +1034,7 @@
 
                     <br>
 
-                    <li>
+                    <li class="publication-card" data-tags="image-generation">
                         <div class="pub-row">
                             <div class="col-sm-3 abbr" style="position: relative; padding-right: 15px; padding-left: 15px;">
                                 <img src="JunsongChen/Sana.jpg" class="teaser img-fluid z-depth-1" style="width: 100;height: 100%">
@@ -976,7 +1074,7 @@
 
                     <br>
 
-                    <li>
+                    <li class="publication-card" data-tags="image-generation">
                         <div class="pub-row">
                             <div class="col-sm-3 abbr" style="position: relative; padding-right: 15px; padding-left: 15px;">
                                 <img src="JunsongChen/4K_image.jpg" class="teaser img-fluid z-depth-1" style="width: 100;height: 100%">
@@ -1014,7 +1112,7 @@
 
                     <br>
 
-                    <li>
+                    <li class="publication-card" data-tags="image-generation few-step">
                         <div class="pub-row">
                             <div class="col-sm-3 abbr" style="position: relative; padding-right: 15px; padding-left: 15px;">
                                 <img src="JunsongChen/pixart_lcm.jpg" class="teaser img-fluid z-depth-1" style="width: 100;height: 100%">
@@ -1050,7 +1148,7 @@
 
                     <br>
 
-                    <li>
+                    <li class="publication-card" data-tags="image-generation">
                         <div class="pub-row">
                             <div class="col-sm-3 abbr" style="position: relative; padding-right: 15px; padding-left: 15px;">
                                 <img src="JunsongChen/pixart-alpha.png" class="teaser img-fluid z-depth-1" style="width: 100;height: 100%">
@@ -1089,7 +1187,7 @@
 
                     <br>
 
-                    <li>
+                    <li class="publication-card" data-tags="model-compression">
                         <div class="pub-row">
                             <div class="col-sm-3 abbr" style="position: relative; padding-right: 15px; padding-left: 15px;">
                                 <img src="JunsongChen/dc-ae.jpg" class="teaser img-fluid z-depth-1" style="width: 100;height: 100%">
@@ -1125,7 +1223,7 @@
 
                     <br>
 
-                    <li>
+                    <li class="publication-card" data-tags="image-generation">
                         <div class="pub-row">
                             <div class="col-sm-3 abbr" style="position: relative; padding-right: 15px; padding-left: 15px;">
                                 <img src="JunsongChen/Hart.jpg" class="teaser img-fluid z-depth-1" style="width: 100;height: 100%">
@@ -1163,7 +1261,7 @@
 
                     <br>
 
-                    <li>
+                    <li class="publication-card" data-tags="perception">
                         <div class="pub-row">
                             <div class="col-sm-3 abbr" style="position: relative; padding-right: 15px; padding-left: 15px;">
                                 <img src="JunsongChen/metabev.png" class="teaser img-fluid z-depth-1" style="width: 100; height: 100%">
@@ -1199,7 +1297,7 @@
 
                     <br>
 
-                    <li>
+                    <li class="publication-card" data-tags="perception">
                         <div class="pub-row">
                             <div class="col-sm-3 abbr" style="position: relative; padding-right: 15px; padding-left: 15px;">
                                 <img src="JunsongChen/arkittrack.png" class="teaser img-fluid z-depth-1" style="width: 100;height: 100%">
@@ -1453,6 +1551,70 @@
                 toggle.textContent = isCollapsed ? "▾" : "▴";
                 toggle.setAttribute("aria-label", isCollapsed ? "Expand news" : "Collapse news");
                 toggle.setAttribute("aria-expanded", String(!isCollapsed));
+            });
+        })();
+    </script>
+    <script>
+        (function () {
+            var filterPanel = document.querySelector(".publication-filter-panel");
+            var publicationList = document.getElementById("selected-publication-list");
+            if (!filterPanel || !publicationList) {
+                return;
+            }
+
+            var buttons = Array.from(filterPanel.querySelectorAll(".publication-filter"));
+            var cards = Array.from(publicationList.querySelectorAll(":scope > li.publication-card"));
+
+            function hasTag(card, filter) {
+                return card.dataset.tags.split(" ").includes(filter);
+            }
+
+            buttons.forEach(function (button) {
+                var filter = button.dataset.filter;
+                var count = filter === "all" ? cards.length : cards.filter(function (card) {
+                    return hasTag(card, filter);
+                }).length;
+                var countNode = button.querySelector(".publication-filter-count");
+                if (countNode) {
+                    countNode.textContent = String(count);
+                }
+
+                button.addEventListener("click", function () {
+                    buttons.forEach(function (candidate) {
+                        var isActive = candidate === button;
+                        candidate.classList.toggle("is-active", isActive);
+                        candidate.setAttribute("aria-pressed", String(isActive));
+                    });
+
+                    var matchingCards = cards.filter(function (card) {
+                        return filter === "all" || hasTag(card, filter);
+                    });
+
+                    cards.forEach(function (card) {
+                        var matches = matchingCards.includes(card);
+                        card.hidden = !matches;
+                        var spacer = card.nextElementSibling;
+                        if (spacer && spacer.tagName === "BR") {
+                            spacer.style.display = "none";
+                        }
+
+                        var video = card.querySelector("video");
+                        if (video) {
+                            if (matches) {
+                                video.play().catch(function () {});
+                            } else {
+                                video.pause();
+                            }
+                        }
+                    });
+
+                    matchingCards.slice(0, -1).forEach(function (card) {
+                        var spacer = card.nextElementSibling;
+                        if (spacer && spacer.tagName === "BR") {
+                            spacer.style.display = "";
+                        }
+                    });
+                });
             });
         })();
     </script>
