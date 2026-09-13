@@ -70,6 +70,21 @@
             box-shadow: none;
         }
 
+        .profile-cover {
+            margin: 0 0 28px;
+            overflow: hidden;
+            border: 1px solid var(--line-strong);
+            border-radius: 16px;
+            background: #11161c;
+            box-shadow: 0 10px 26px rgba(54, 42, 33, 0.08);
+        }
+
+        .profile-cover img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
         h1,
         h2,
         h3 {
@@ -515,6 +530,11 @@
                 padding: 18px 14px 24px !important;
             }
 
+            .profile-cover {
+                margin-bottom: 22px;
+                border-radius: 13px;
+            }
+
             .publication-filter-list {
                 width: 100%;
             }
@@ -582,6 +602,10 @@
         </header>
 
         <section>
+            <figure class="profile-cover">
+                <img src="JunsongChen/profile-cover.png" alt="Junsong Chen — Generative Models, Efficient Inference, and AI Agents, overlooking Victoria Harbour">
+            </figure>
+
             <h2 id="about-me">About Me</h2>
             <p>
                 I am currently a research intern at <a href="https://research.nvidia.com/labs/eai/">NVIDIA Research</a> supervised by
