@@ -7,7 +7,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="The homepage for Junsong Chen">
     <meta name="keywords" content="Junsong Chen">
+    <meta name="color-scheme" content="light dark">
     <link rel="canonical" href="https://junsongchen.com/">
+
+    <script>
+        (function () {
+            var storageKey = "junsong-color-theme";
+            var storedTheme = null;
+            try {
+                storedTheme = localStorage.getItem(storageKey);
+            } catch (error) {}
+
+            var preference = storedTheme === "light" || storedTheme === "dark" ? storedTheme : "system";
+            var systemTheme = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+            document.documentElement.dataset.themePreference = preference;
+            document.documentElement.dataset.resolvedTheme = preference === "system" ? systemTheme : preference;
+        })();
+    </script>
 
     <script src="JunsongChen/favicon-switcher.js" type="application/javascript"></script>
     <link rel="shortcut icon" type="image/png" href="https://www.nvidia.com/favicon.ico">
@@ -18,21 +34,111 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.6/css/academicons.min.css">
     <style>
         :root {
+            color-scheme: light;
+            --page-bg: #faf7f2;
             --card: #fffefb;
             --text: #473d35;
             --muted: #8b8073;
+            --muted-strong: #76685d;
             --accent: #da7756;
             --accent-soft: #f5e9df;
+            --accent-text: #895139;
+            --link: #b56c4d;
+            --link-hover: #8f5238;
+            --link-decoration: #d7b49e;
             --line: #f3ede6;
             --line-strong: #eddfd1;
+            --border: #e3d0bf;
+            --border-hover: #d8bca6;
             --btn-bg: #fffcf8;
             --btn-hover: #fff7f1;
+            --surface-soft: rgba(255, 252, 248, 0.58);
+            --counter-bg: rgba(255, 255, 255, 0.72);
+            --icon-text: #5f4d40;
+            --email-text: #80766a;
+            --award-year: #9b8f82;
+            --avatar-border: #fff;
+            --avatar-shadow: 0 12px 22px rgba(103, 69, 46, 0.18);
+            --control-shadow: 0 4px 10px rgba(69, 44, 27, 0.08);
+            --control-hover-shadow: 0 6px 12px rgba(69, 44, 27, 0.12);
+            --item-hover-shadow: 0 2px 8px rgba(86, 56, 34, 0.05);
             --shadow: 0 4px 12px rgba(70, 45, 26, 0.03), 0 12px 30px rgba(70, 45, 26, 0.045);
+            --global-bg-color: var(--page-bg);
+            --global-text-color: var(--text);
+            --global-text-color-light: var(--muted);
+            --global-theme-color: var(--link);
+        }
+
+        :root[data-resolved-theme="dark"] {
+            color-scheme: dark;
+            --page-bg: #171411;
+            --card: #211c18;
+            --text: #eee7df;
+            --muted: #b9aea3;
+            --muted-strong: #c8bbb0;
+            --accent: #e09a78;
+            --accent-soft: #3b281f;
+            --accent-text: #f0b494;
+            --link: #e2a07f;
+            --link-hover: #ffd0b8;
+            --link-decoration: #805b49;
+            --line: #342c26;
+            --line-strong: #514137;
+            --border: #493b32;
+            --border-hover: #765946;
+            --btn-bg: #241e1a;
+            --btn-hover: #302720;
+            --surface-soft: rgba(38, 31, 26, 0.72);
+            --counter-bg: rgba(255, 255, 255, 0.08);
+            --icon-text: #d8cabf;
+            --email-text: #b9aea3;
+            --award-year: #a99e94;
+            --avatar-border: #4b3e35;
+            --avatar-shadow: 0 12px 24px rgba(0, 0, 0, 0.34);
+            --control-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            --control-hover-shadow: 0 6px 14px rgba(0, 0, 0, 0.28);
+            --item-hover-shadow: 0 3px 10px rgba(0, 0, 0, 0.22);
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.16), 0 12px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root:not([data-resolved-theme]) {
+                color-scheme: dark;
+                --page-bg: #171411;
+                --card: #211c18;
+                --text: #eee7df;
+                --muted: #b9aea3;
+                --muted-strong: #c8bbb0;
+                --accent: #e09a78;
+                --accent-soft: #3b281f;
+                --accent-text: #f0b494;
+                --link: #e2a07f;
+                --link-hover: #ffd0b8;
+                --link-decoration: #805b49;
+                --line: #342c26;
+                --line-strong: #514137;
+                --border: #493b32;
+                --border-hover: #765946;
+                --btn-bg: #241e1a;
+                --btn-hover: #302720;
+                --surface-soft: rgba(38, 31, 26, 0.72);
+                --counter-bg: rgba(255, 255, 255, 0.08);
+                --icon-text: #d8cabf;
+                --email-text: #b9aea3;
+                --award-year: #a99e94;
+                --avatar-border: #4b3e35;
+                --avatar-shadow: 0 12px 24px rgba(0, 0, 0, 0.34);
+                --control-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+                --control-hover-shadow: 0 6px 14px rgba(0, 0, 0, 0.28);
+                --item-hover-shadow: 0 3px 10px rgba(0, 0, 0, 0.22);
+                --shadow: 0 4px 12px rgba(0, 0, 0, 0.16), 0 12px 30px rgba(0, 0, 0, 0.2);
+            }
         }
 
         body {
-            background: #faf7f2;
+            background: var(--page-bg);
             color: var(--text);
+            transition: background-color 0.2s ease, color 0.2s ease;
         }
 
         .wrapper {
@@ -80,16 +186,17 @@
         header email {
             font-size: 16px !important;
             line-height: 1.55;
-            color: #80766a !important;
+            color: var(--email-text) !important;
         }
 
         .profile-intro {
             margin: 0 0 28px;
             overflow: hidden;
-            border: 1px solid #e5dcd0;
+            border: 1px solid var(--border);
             border-radius: 12px;
-            background: rgba(255, 253, 248, .46);
+            background: var(--surface-soft);
             box-shadow: none;
+            transition: background-color 0.2s ease, border-color 0.2s ease;
         }
 
         /* Keep the original photo and signature; size the tagline separately. */
@@ -205,19 +312,32 @@
         }
 
         a {
-            color: #b56c4d;
-            text-decoration-color: #d7b49e;
+            color: var(--link);
+            text-decoration-color: var(--link-decoration);
             text-decoration-thickness: 1.3px;
             text-underline-offset: 2px;
         }
 
         a:hover {
-            color: #8f5238;
-            text-decoration-color: #8f5238;
+            color: var(--link-hover);
+            text-decoration-color: var(--link-hover);
         }
 
         a[style*="#0366d6"] {
-            color: #b56c4d !important;
+            color: var(--link) !important;
+        }
+
+        .author a[style*="dimgrey"],
+        .author a[style*="dimgray"] {
+            color: var(--muted) !important;
+        }
+
+        strong {
+            color: inherit;
+        }
+
+        position {
+            color: var(--text);
         }
 
         .image.avatar.circle-avatar {
@@ -225,8 +345,8 @@
             height: 132px;
             border-radius: 50%;
             overflow: hidden;
-            border: 3px solid #fff;
-            box-shadow: 0 12px 22px rgba(103, 69, 46, 0.18);
+            border: 3px solid var(--avatar-border);
+            box-shadow: var(--avatar-shadow);
             margin-bottom: 10px;
         }
 
@@ -243,9 +363,9 @@
 
         .social-icons a {
             background: transparent;
-            border: 1px solid #e3d0bf;
+            border: 1px solid var(--border);
             border-radius: 14px;
-            color: #5f4d40 !important;
+            color: var(--icon-text) !important;
             transition: all 0.2s ease;
             padding: 8px 10px;
             box-sizing: border-box;
@@ -256,6 +376,7 @@
             justify-content: flex-start !important;
             min-height: 42px;
             font-size: 1.02rem !important;
+            margin-right: 0;
         }
 
         .social-icons a i {
@@ -265,10 +386,73 @@
 
         .social-icons a:hover {
             background: transparent;
-            border-color: #d8bca6;
-            box-shadow: 0 2px 8px rgba(86, 56, 34, 0.05);
+            border-color: var(--border-hover);
+            box-shadow: var(--item-hover-shadow);
             color: var(--accent) !important;
             transform: translateY(-1px);
+        }
+
+        .theme-control {
+            margin: 16px 0 10px;
+        }
+
+        .theme-toggle {
+            width: 100%;
+            min-height: 42px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 10px;
+            padding: 8px 12px;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            background: var(--btn-bg);
+            color: var(--icon-text);
+            font-family: inherit;
+            font-size: 0.92rem;
+            font-weight: 600;
+            line-height: 1.2;
+            cursor: pointer;
+            box-sizing: border-box;
+            box-shadow: var(--control-shadow);
+            transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+        }
+
+        .theme-toggle:hover {
+            border-color: var(--border-hover);
+            background: var(--btn-hover);
+            color: var(--link-hover);
+            box-shadow: var(--control-hover-shadow);
+            transform: translateY(-1px);
+        }
+
+        .theme-toggle:focus-visible {
+            outline: 2px solid var(--link-decoration);
+            outline-offset: 2px;
+        }
+
+        .theme-toggle-icon {
+            display: none;
+            width: 20px;
+            height: 20px;
+            flex: 0 0 20px;
+        }
+
+        .theme-toggle-icon svg {
+            display: block;
+            width: 100%;
+            height: 100%;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 1.8;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .theme-toggle[data-theme-preference="system"] .theme-toggle-icon-system,
+        .theme-toggle[data-theme-preference="light"] .theme-toggle-icon-light,
+        .theme-toggle[data-theme-preference="dark"] .theme-toggle-icon-dark {
+            display: block;
         }
 
         .publication-filter-panel {
@@ -277,7 +461,7 @@
             padding: 9px 10px 10px;
             border: 1px solid var(--line);
             border-radius: 14px;
-            background: rgba(255, 252, 248, 0.58);
+            background: var(--surface-soft);
         }
 
         .publication-filter-label {
@@ -309,7 +493,7 @@
             border: 1px solid transparent;
             border-radius: 999px;
             background: transparent;
-            color: #76685d;
+            color: var(--muted-strong);
             font-family: inherit;
             font-size: 0.82rem;
             font-weight: 600;
@@ -326,14 +510,14 @@
         }
 
         .publication-filter.is-active {
-            border-color: #dfc3ae;
+            border-color: var(--border-hover);
             background: var(--accent-soft);
-            color: #895139;
-            box-shadow: 0 2px 6px rgba(86, 56, 34, 0.05);
+            color: var(--accent-text);
+            box-shadow: var(--item-hover-shadow);
         }
 
         .publication-filter:focus-visible {
-            outline: 2px solid #d7b49e;
+            outline: 2px solid var(--link-decoration);
             outline-offset: 2px;
         }
 
@@ -341,7 +525,7 @@
             min-width: 18px;
             padding: 1px 5px;
             border-radius: 999px;
-            background: rgba(255, 255, 255, 0.72);
+            background: var(--counter-bg);
             color: inherit;
             font-size: 0.7rem;
             font-weight: 700;
@@ -356,7 +540,7 @@
             position: relative;
             margin: 0 0 14px;
             padding: 14px 14px 14px 16px;
-            border: 1px solid #e3d0bf;
+            border: 1px solid var(--border);
             border-radius: 12px;
             background: transparent;
             transition: border-color 0.2s ease, box-shadow 0.2s ease;
@@ -401,7 +585,7 @@
 
         .badge {
             background: var(--accent-soft) !important;
-            color: #895139 !important;
+            color: var(--accent-text) !important;
             border: 1px solid var(--line-strong);
             border-radius: 8px;
             font-weight: 700;
@@ -411,7 +595,7 @@
             border: 1px solid var(--line-strong) !important;
             border-radius: 999px !important;
             background: var(--btn-bg) !important;
-            color: #8f563d !important;
+            color: var(--accent-text) !important;
             padding: 3px 10px !important;
             margin-right: 4px !important;
             display: inline-block;
@@ -419,8 +603,8 @@
 
         .btn.btn-sm:hover {
             background: var(--btn-hover) !important;
-            border-color: #dbb79d !important;
-            color: #b56c4d !important;
+            border-color: var(--border-hover) !important;
+            color: var(--link) !important;
         }
 
         .publications .links {
@@ -434,7 +618,7 @@
             border: 1px solid var(--line-strong);
             border-radius: 999px;
             background: var(--btn-bg);
-            color: #8f563d !important;
+            color: var(--accent-text) !important;
             padding: 3px 10px;
             display: inline-block;
             line-height: 1.3;
@@ -444,8 +628,8 @@
 
         .publications .links > a[href*="github.com"]:not(.github-button):not(.btn):hover {
             background: var(--btn-hover);
-            border-color: #dbb79d;
-            color: #b56c4d !important;
+            border-color: var(--border-hover);
+            color: var(--link) !important;
         }
 
         .publications .links .github-button {
@@ -460,7 +644,7 @@
             display: inline-flex;
             align-items: center;
             line-height: 1;
-            color: #8f563d !important;
+            color: var(--accent-text) !important;
             font-size: 12px;
             vertical-align: middle;
             margin-left: 2px;
@@ -484,7 +668,7 @@
         }
 
         .star-count-badge:hover {
-            color: #b56c4d !important;
+            color: var(--link) !important;
         }
 
         .news-list.collapsed li.older-news {
@@ -506,14 +690,14 @@
             min-height: 34px;
             text-align: center;
             border-radius: 999px;
-            box-shadow: 0 4px 10px rgba(69, 44, 27, 0.08);
+            box-shadow: var(--control-shadow);
             transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
         }
 
         .news-toggle:hover {
             background: var(--btn-hover);
-            color: #b56c4d;
-            box-shadow: 0 6px 12px rgba(69, 44, 27, 0.12);
+            color: var(--link);
+            box-shadow: var(--control-hover-shadow);
             transform: translateY(-1px);
         }
 
@@ -528,7 +712,7 @@
             align-items: baseline;
             margin: 0 0 10px;
             padding: 10px 12px;
-            border: 1px solid #e3d0bf;
+            border: 1px solid var(--border);
             border-radius: 10px;
             background: transparent;
             transition: border-color 0.2s ease, box-shadow 0.2s ease;
@@ -536,8 +720,8 @@
 
         .publications ol.bibliography > li:hover,
         .award-item:hover {
-            border-color: #d8bca6;
-            box-shadow: 0 2px 8px rgba(86, 56, 34, 0.05);
+            border-color: var(--border-hover);
+            box-shadow: var(--item-hover-shadow);
         }
 
         .award-item:last-of-type {
@@ -552,7 +736,11 @@
         .award-year {
             flex-shrink: 0;
             font-weight: 600;
-            color: #9b8f82;
+            color: var(--award-year);
+        }
+
+        .award-name small {
+            color: var(--muted) !important;
         }
 
         .visit-counter {
@@ -619,6 +807,16 @@
             .social-icons a .social-label {
                 display: none !important;
             }
+
+            .theme-control {
+                display: flex;
+                justify-content: center;
+            }
+
+            .theme-toggle {
+                width: auto;
+                min-width: 112px;
+            }
         }
         @media (max-width: 520px) {
             .about-copy {
@@ -627,6 +825,14 @@
 
             section .about-copy h2 {
                 font-size: 24px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            body,
+            .profile-intro,
+            .theme-toggle {
+                transition: none;
             }
         }
     </style>
@@ -643,7 +849,21 @@
             <a href="https://www.cds.hku.hk/" rel="noopener"><autocolor>HKU CDS</autocolor></a>
             <br>
             <email>junsongc [at] icloud [dot] com</email>
-            <br><br>
+
+            <div class="theme-control">
+                <button class="theme-toggle" id="theme-toggle" type="button" data-theme-preference="system" aria-label="Color theme: System" title="Color theme: System">
+                    <span class="theme-toggle-icon theme-toggle-icon-system" aria-hidden="true">
+                        <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="14" rx="2"></rect><path d="M8 22h8M12 18v4"></path></svg>
+                    </span>
+                    <span class="theme-toggle-icon theme-toggle-icon-light" aria-hidden="true">
+                        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.66 6.34l1.41-1.41"></path></svg>
+                    </span>
+                    <span class="theme-toggle-icon theme-toggle-icon-dark" aria-hidden="true">
+                        <svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                    </span>
+                    <span class="theme-toggle-label">System</span>
+                </button>
+            </div>
 
             <div class="social-icons" style="display: flex; flex-direction: column; gap: 10px; align-items: flex-start;">
                 <a style="display: flex; align-items: center; gap: 10px; text-decoration: none; font-size: 1.1rem;" href="https://scholar.google.com/citations?user=p4zxPP8AAAAJ">
@@ -1664,6 +1884,81 @@
         <footer></footer>
     </div>
 
+    <script>
+        (function () {
+            var root = document.documentElement;
+            var toggle = document.getElementById("theme-toggle");
+            if (!toggle) {
+                return;
+            }
+
+            var storageKey = "junsong-color-theme";
+            var mediaQuery = window.matchMedia ? window.matchMedia("(prefers-color-scheme: dark)") : null;
+            var preference = root.dataset.themePreference || "system";
+            var label = toggle.querySelector(".theme-toggle-label");
+            var names = { system: "System", light: "Light", dark: "Dark" };
+
+            function getSystemTheme() {
+                return mediaQuery && mediaQuery.matches ? "dark" : "light";
+            }
+
+            function getNextPreference(currentPreference) {
+                var systemTheme = getSystemTheme();
+                if (currentPreference === "system") {
+                    return systemTheme === "dark" ? "light" : "dark";
+                }
+                if (currentPreference !== systemTheme) {
+                    return systemTheme;
+                }
+                return "system";
+            }
+
+            function updateButton() {
+                var nextPreference = getNextPreference(preference);
+                var description = "Color theme: " + names[preference] + ". Switch to " + names[nextPreference] + ".";
+                toggle.dataset.themePreference = preference;
+                toggle.setAttribute("aria-label", description);
+                toggle.title = description;
+                if (label) {
+                    label.textContent = names[preference];
+                }
+            }
+
+            function applyPreference(nextPreference, persist) {
+                preference = nextPreference;
+                root.dataset.themePreference = preference;
+                root.dataset.resolvedTheme = preference === "system" ? getSystemTheme() : preference;
+
+                if (persist) {
+                    try {
+                        if (preference === "system") {
+                            localStorage.removeItem(storageKey);
+                        } else {
+                            localStorage.setItem(storageKey, preference);
+                        }
+                    } catch (error) {}
+                }
+                updateButton();
+            }
+
+            toggle.addEventListener("click", function () {
+                applyPreference(getNextPreference(preference), true);
+            });
+
+            if (mediaQuery) {
+                var handleSystemThemeChange = function () {
+                    applyPreference(preference, false);
+                };
+                if (mediaQuery.addEventListener) {
+                    mediaQuery.addEventListener("change", handleSystemThemeChange);
+                } else if (mediaQuery.addListener) {
+                    mediaQuery.addListener(handleSystemThemeChange);
+                }
+            }
+
+            applyPreference(preference, false);
+        })();
+    </script>
     <script>
         (function () {
             var newsList = document.getElementById("news-list");
